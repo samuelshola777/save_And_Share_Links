@@ -7,10 +7,12 @@ import com.example.emailService.data.repository.ConfirmationRepository;
 import com.example.emailService.data.repository.UserRepository;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ConfirmationRepository confirmationRepository;
@@ -25,8 +27,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean verifyToken(String token) {
-    Confirmation confirmation = confirmationRepository.findByToken(token);
-    User user = userRepository.findByEmailIgnoreCase(confirmation.getUser().getEmail());
+        User user;
+        try {
+            Confirmation confirmation = confirmationRepository.findByToken(token);
+        user = userRepository.findByEmailIgnoreCase(confirmation.getUser().getEmail());
+        }catch (Exception e){
+         log.info(e.getMessage());
+         throw new UserException(("invalid token"));
+        }
+
       user.setEnabled(true);
       userRepository.save(user);
         return Boolean.TRUE;
