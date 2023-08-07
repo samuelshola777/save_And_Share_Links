@@ -18,11 +18,17 @@ public class UserServiceImpl implements UserService {
     public User saverUser(User user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
         user.setEnabled(false);
-        confirmationRepository.save(new Confirmation(userRepository.save(user)));        return null;
+        user =  confirmationRepository.save(new Confirmation(userRepository.save(user))).getUser();
+        // TODO send email notification with token
+        return user;
     }
 
     @Override
     public Boolean verifyToken(String token) {
-        return null;
+    Confirmation confirmation = confirmationRepository.findByToken(token);
+    User user = userRepository.findByEmailIgnoreCase(confirmation.getUser().getEmail());
+      user.setEnabled(true);
+      userRepository.save(user);
+        return Boolean.TRUE;
     }
 }
