@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         // TODO send email notification with token
         return user;
     }
-    String name = "boneshakeer";
+
 
     @Override
     public Boolean verifyToken(String token) {
