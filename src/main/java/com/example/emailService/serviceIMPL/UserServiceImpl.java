@@ -37,6 +37,7 @@ public class UserServiceImpl implements UserService {
          throw new UserException(("invalid token"));
         }
 
+
       user.setEnabled(true);
       userRepository.save(user);
         return Boolean.TRUE;
