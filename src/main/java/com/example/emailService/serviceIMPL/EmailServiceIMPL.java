@@ -26,7 +26,7 @@ public class EmailServiceIMPL implements EmailService {
 
     @Override
     public void sendSimpleMailMessage(String name, String to, String token) {
-//        try{
+        try{
     SimpleMailMessage message = new SimpleMailMessage();
     message.setSubject(NEW_USER_ACCOUNT_VERIFICATION);
     message.setFrom(fromEmail);
@@ -34,10 +34,10 @@ public class EmailServiceIMPL implements EmailService {
     message.setText("hey this is working hahahaha");
     javaMailSender.send(message);
 
-//        }catch (Exception exception){
-//            System.out.println("this is  execption -->  "+exception.getMessage());
-//            throw new EmailException("couldn't sent email");
-//        }
+        }catch (Exception exception){
+            System.out.println("this is  execption -->  "+exception.getMessage());
+            throw new EmailException("couldn't sent email");
+        }
 
     }
 
