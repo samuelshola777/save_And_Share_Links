@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Data
 @SuperBuilder
@@ -22,6 +24,7 @@ public class User {
     private String email;
     private String password;
     private boolean isEnabled;
+
 
 
 }
