@@ -14,7 +14,7 @@ import java.util.Map;
 import static jakarta.mail.event.FolderEvent.CREATED;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
