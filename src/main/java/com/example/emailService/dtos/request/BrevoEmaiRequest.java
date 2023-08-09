@@ -11,7 +11,6 @@ public class BrevoEmaiRequest {
 
     private BrevoSender sender;
 
-
     private List<BrevoEmailReceiver> recipients;
 
     private String textContent;
