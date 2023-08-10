@@ -44,4 +44,6 @@ spring:
 server:
   port: ${SERVER_PORT}
 
+BREVO_API: ${BREVO_API_KEY}
+
 

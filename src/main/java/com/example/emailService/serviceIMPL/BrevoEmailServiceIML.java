@@ -2,11 +2,11 @@ package com.example.emailService.serviceIMPL;
 
 import com.example.emailService.AppConfig.BrevoConfig;
 import com.example.emailService.dtos.request.BrevoEmaiRequest;
+import com.example.emailService.dtos.response.BrevoEmailResponse;
 import com.example.emailService.services.BrevoEmailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,7 +17,7 @@ public class BrevoEmailServiceIML implements BrevoEmailService {
 private final BrevoConfig brevoConfig;
 
     @Override
-    public String brevoMailSender(BrevoEmaiRequest brevoEmaiRequest) {
+    public BrevoEmailResponse brevoMailSender(BrevoEmaiRequest brevoEmaiRequest) {
         String brevoMailAddress = "https://api.brevo.com/v3/smtp/email";
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
@@ -27,7 +27,8 @@ private final BrevoConfig brevoConfig;
                 new HttpEntity<>(brevoEmaiRequest, headers);
 
 
-                restTemplate.postForEntity(brevoMailAddress, request, BrevoEmaiRequest.class);
-                return "Email sent successfully";
+        ResponseEntity<BrevoEmailResponse> response
+              =  restTemplate.postForEntity(brevoMailAddress, request, BrevoEmailResponse.class);
+        return response.getBody();
     }
 }

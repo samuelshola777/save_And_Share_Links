@@ -30,7 +30,7 @@ BrevoEmailReceiver brevoEmailReceiver;
   brevoSender.setEmail("samuelshola14@gmail.com");
 
   brevoEmailReceiver = new BrevoEmailReceiver();
-  brevoEmailReceiver.setEmail("samuelshola14@gmail.com");
+  brevoEmailReceiver.setEmail("boneshaker896@gmail.com");
   brevoEmailReceiver.setName("boneshaker");
         List<BrevoEmailReceiver> brevoEmaiRequestArrayList = new ArrayList<>();
         brevoEmaiRequestArrayList.add(brevoEmailReceiver);

@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BrevoConfig {
 
-    @Value("${BREVO_API_KEY}")
+    @Value("${BREVO_API}")
     private String mailApiKey;
     public String getMailApiKey() {
         return mailApiKey;
