@@ -6,19 +6,24 @@ import com.example.emailService.dtos.response.BrevoEmailResponse;
 import com.example.emailService.services.BrevoEmailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
-@AllArgsConstructor
-public class BrevoEmailServiceIML implements BrevoEmailService {
-private final BrevoConfig brevoConfig;
 
+public class BrevoEmailServiceIML implements BrevoEmailService {
+    @Autowired
+private  BrevoConfig brevoConfig;
+@Value("${MAIL_URL}")
+ String brevoMailAddress;
     @Override
     public BrevoEmailResponse brevoMailSender(BrevoEmaiRequest brevoEmaiRequest) {
-        String brevoMailAddress = "https://api.brevo.com/v3/smtp/email";
+
+//       pr String brevoMailAddress
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("api-key", brevoConfig.getMailApiKey());

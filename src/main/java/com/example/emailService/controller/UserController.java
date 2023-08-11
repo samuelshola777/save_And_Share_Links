@@ -11,8 +11,6 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import static jakarta.mail.event.FolderEvent.CREATED;
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
