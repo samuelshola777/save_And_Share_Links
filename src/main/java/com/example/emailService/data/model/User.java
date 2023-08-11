@@ -1,15 +1,14 @@
 package com.example.emailService.data.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Data
@@ -24,7 +23,12 @@ public class User {
     private String email;
     private String password;
     private boolean isEnabled;
-
+    @ElementCollection
+    @CollectionTable(name = "link_name", joinColumns = @JoinColumn(name = "link_id"))
+    @MapKeyColumn(name = "link_key_and_id")
+    @Column(name = "link_key_and_id")
+    private Map<String, Long> links = new HashMap<>();
+    private long numberOfLinks;
 
 
 }

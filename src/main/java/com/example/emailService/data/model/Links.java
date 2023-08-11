@@ -5,21 +5,25 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDateTime;
 
 @Entity
-@SuperBuilder
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class Links {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String link;
+    private long userId;
+    private String linkUrlAddress;
+    private String linkName;
     private String userEmail;
+    private long numberOflinks;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 
