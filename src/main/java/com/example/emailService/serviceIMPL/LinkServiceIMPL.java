@@ -36,7 +36,8 @@ public class LinkServiceIMPL implements LinkService {
     public LinkResponse mapToResponse(Links request) {
         return LinkResponse.builder()
                 .linkName(request.getLinkName())
-                .numberOfLink(request.getNumberOflinks())
+                .numberOfLink(request.getNumberOfLinks())
                 .build();
     }
+
 }

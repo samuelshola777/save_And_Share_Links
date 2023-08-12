@@ -1,6 +1,7 @@
 package com.example.emailService.services;
 
 import com.example.emailService.dtos.request.LinkRequest;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 @SpringBootTest
 @RequiredArgsConstructor
 class LinkServiceTest {
+    @NonNull
     private final LinkService linkService;
 
     private LinkRequest linkRequest1;
@@ -33,7 +35,7 @@ class LinkServiceTest {
 
         linkRequest3 = new LinkRequest();
         linkRequest3.setLinkName("my gmail api link");
-        linkRequest3.setLinkUrlAddress("http://localhost:8080");
+        linkRequest3.setLinkUrlAddress("https://github.com/samuelshola777");
         linkRequest3.setUserEmail("samuelshola14@gmail.com");
     }
 
