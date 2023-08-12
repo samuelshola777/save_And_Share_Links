@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LinkRepository extends JpaRepository<Links,Long> {
     boolean existsByLinkName(String linkName);
+
+    Links findByLinkName(String oldLinkName);
 }

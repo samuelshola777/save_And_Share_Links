@@ -6,15 +6,15 @@ import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
-@RequiredArgsConstructor
 class LinkServiceTest {
-    @NonNull
-    private final LinkService linkService;
+    @Autowired
+    private  LinkService linkService;
 
     private LinkRequest linkRequest1;
     private LinkRequest linkRequest2;
@@ -51,5 +51,9 @@ class LinkServiceTest {
      assertDoesNotThrow(()->{ linkService.createLink(linkRequest3);});
 
 
+    }
+    @Test
+    void testThatWeCanRenameLink(){
+        assertDoesNotThrow(()->{linkService.renameLink("my gmail api link","my new gmail ling");});
     }
 }

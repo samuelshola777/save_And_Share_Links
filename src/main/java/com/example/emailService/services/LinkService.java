@@ -6,4 +6,6 @@ import com.example.emailService.dtos.response.LinkResponse;
 public interface LinkService {
 
     LinkResponse createLink(LinkRequest linkRequest);
+
+   String renameLink(String oldLinkName, String newLinkName);
 }
