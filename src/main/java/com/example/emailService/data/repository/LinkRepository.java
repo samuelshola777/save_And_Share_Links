@@ -4,5 +4,5 @@ import com.example.emailService.data.model.Links;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LinkRepository extends JpaRepository<Links,Long> {
-    boolean ifExistByLinkName(String linkName);
+    boolean existsByLinkName(String linkName);
 }

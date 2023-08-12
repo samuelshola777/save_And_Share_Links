@@ -19,7 +19,7 @@ public class LinkServiceIMPL implements LinkService {
     private final LinkRepository linkRepository;
     @Override
     public LinkResponse createLink(LinkRequest linkRequest) {
-       if ( linkRepository.ifExistByLinkName(linkRequest.getLinkName()))
+       if ( linkRepository.existsByLinkName(linkRequest.getLinkName()))
            throw new LinkException("link Already exist");
        if (linkRequest.getUserEmail() == null || linkRequest.getLinkUrlAddress() == null)
            throw new LinkException("this operation can't be completed ");

@@ -23,10 +23,11 @@ public class User {
     private String email;
     private String password;
     private boolean isEnabled;
+
     @ElementCollection
-    @CollectionTable(name = "link_name", joinColumns = @JoinColumn(name = "link_id"))
-    @MapKeyColumn(name = "link_key_and_id")
-    @Column(name = "link_key_and_id")
+    @CollectionTable(name = "user_links", joinColumns = @JoinColumn(name = "user_id"))
+    @MapKeyColumn(name = "link_key")
+    @Column(name = "link_value")
     private Map<String, Long> links = new HashMap<>();
     private long numberOfLinks;
 
