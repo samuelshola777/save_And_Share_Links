@@ -11,4 +11,7 @@ public interface LinkService {
 
 
     String deleteAllLinkByUserEmail(String mail);
+
+    String deleteLindByLabel(String myGoogleLink, String mail);
+    long countMyLinks(String userEmail);
 }

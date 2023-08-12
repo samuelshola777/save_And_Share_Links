@@ -10,4 +10,7 @@ public interface LinkRepository extends JpaRepository<Links,Long> {
 
 
     void deleteAllByUserEmail(String mail);
+
+
+    long countAllByUserEmail(String userEmail);
 }

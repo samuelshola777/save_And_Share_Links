@@ -44,8 +44,23 @@ public class LinkServiceIMPL implements LinkService {
 
     @Override
     public String deleteAllLinkByUserEmail(String mail) {
-        linkRepository.deleteAllByUserEmail(mail);
+        try {
+            linkRepository.deleteAllByUserEmail(mail);
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new FIndException("invalid link email");
+        }
+
         return "all links deleted successfully";
+    }
+
+    @Override
+    public String deleteLindByLabel(String myGoogleLink, String mail) {
+        if (! linkRepository.existsByLinkName(myGoogleLink)) throw new LinkException("Link " + myGoogleLink + "does not exist");
+            Links foundLink =  linkRepository.findByLinkName(myGoogleLink);
+            if (! foundLink.getUserEmail().equals(mail)) throw new   LinkException("mail " + mail+ " is not a valid email address");
+                linkRepository.delete(foundLink);
+        return "deleted successfully";
     }
 
 
@@ -56,8 +71,10 @@ public class LinkServiceIMPL implements LinkService {
            .userEmail(linkRequest.getUserEmail())
            .id(linkRequest.getUserId())
            .createdTime(LocalDateTime.now())
-           .numberOfLinks(+1)
            .build();
+    }
+    public long countMyLinks(String userEmail){
+   return linkRepository.countAllByUserEmail(userEmail);
     }
     public LinkResponse mapToResponse(Links request) {
         return LinkResponse.builder()

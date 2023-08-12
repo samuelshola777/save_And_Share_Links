@@ -60,4 +60,8 @@ class LinkServiceTest {
     void testThatWeCanDeleteLink(){
         assertDoesNotThrow(()->{linkService.deleteAllLinkByUserEmail("boneshaker896@gmail.com");});
     }
+    @Test
+    void testThatWeCanDeleteLinkByLabel() {
+        assertDoesNotThrow(()->{linkService.deleteLindByLabel("my google link","boneshaker896@gmail.com");});
+    }
 }
