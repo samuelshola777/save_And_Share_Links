@@ -25,7 +25,7 @@ public class Links {
     private String userEmail;
     private long numberOfLinks;
     private LocalDateTime createdTime;
-    private LocalDateTime updatedTime;
+    private LocalDateTime lastupdatedTime;
 
 
 }

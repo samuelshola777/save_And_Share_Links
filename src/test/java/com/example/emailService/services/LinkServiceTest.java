@@ -56,4 +56,8 @@ class LinkServiceTest {
     void testThatWeCanRenameLink(){
         assertDoesNotThrow(()->{linkService.renameLink("my gmail api link","my new gmail ling");});
     }
+    @Test
+    void testThatWeCanDeleteLink(){
+        assertDoesNotThrow(()->{linkService.deleteAllLinkByUserEmail("boneshaker896@gmail.com");});
+    }
 }

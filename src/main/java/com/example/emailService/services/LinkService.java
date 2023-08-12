@@ -8,4 +8,7 @@ public interface LinkService {
     LinkResponse createLink(LinkRequest linkRequest);
 
    String renameLink(String oldLinkName, String newLinkName);
+
+
+    String deleteAllLinkByUserEmail(String mail);
 }

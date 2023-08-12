@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @Slf4j
 @Transactional
@@ -32,13 +34,20 @@ public class LinkServiceIMPL implements LinkService {
 
     @Override
     public String renameLink(String oldLinkName, String newLinkName) {
-
         if (! linkRepository.existsByLinkName(oldLinkName)) throw new FIndException("Link " + oldLinkName + " already exists");
         Links foundLink =  linkRepository.findByLinkName(oldLinkName);
         foundLink.setLinkName(newLinkName);
+        foundLink.setLastupdatedTime(LocalDateTime.now());
         linkRepository.save(foundLink);
         return "new name set successfully";
     }
+
+    @Override
+    public String deleteAllLinkByUserEmail(String mail) {
+        linkRepository.deleteAllByUserEmail(mail);
+        return "all links deleted successfully";
+    }
+
 
     public Links mapLinkRequestToLink(LinkRequest linkRequest){
    return  Links.builder()
@@ -46,6 +55,8 @@ public class LinkServiceIMPL implements LinkService {
            .linkName(linkRequest.getLinkName())
            .userEmail(linkRequest.getUserEmail())
            .id(linkRequest.getUserId())
+           .createdTime(LocalDateTime.now())
+           .numberOfLinks(+1)
            .build();
     }
     public LinkResponse mapToResponse(Links request) {
