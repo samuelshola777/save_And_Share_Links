@@ -5,6 +5,7 @@ import com.example.emailService.data.model.Confirmation;
 import com.example.emailService.data.model.User;
 import com.example.emailService.data.repository.ConfirmationRepository;
 import com.example.emailService.data.repository.UserRepository;
+import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.services.EmailService;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,14 @@ public class UserServiceImpl implements UserService {
     private final ConfirmationRepository confirmationRepository;
     private final EmailService emailService;
     @Override
-    public User saverUser(User user) {
+    public User saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
-        user.setEnabled(false);
-     User savedUser =userRepository.save(user);
+
+     User savedUser =userRepository.save(mapToUser(user));
       Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
         emailService.sendSimpleMailMessage("boneshaker",user.getEmail(),savedConfirmation.getToken());
-        return user;
+        return savedUser;
     }
 
 
@@ -45,5 +46,13 @@ public class UserServiceImpl implements UserService {
       user.setEnabled(true);
       userRepository.save(user);
         return Boolean.TRUE;
+    }
+    private User mapToUser(UserRequest userRequest){
+        return User.builder()
+                .userName(userRequest.getUserName())
+                .email(userRequest.getEmail())
+                .password(userRequest.getPassword())
+                .isEnabled(false)
+                .build();
     }
 }

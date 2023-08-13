@@ -1,6 +1,7 @@
 package com.example.emailService.controller;
 
 import com.example.emailService.data.model.User;
+import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 @PostMapping("/register")
-   public ResponseEntity<HttpResponse> createUser(@RequestBody User user) {
+   public ResponseEntity<HttpResponse> createUser(@RequestBody UserRequest user) {
     User user1 = userService.saverUser(user);
     return ResponseEntity.created(
             URI.create("")).body(
