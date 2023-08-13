@@ -35,7 +35,7 @@ public class LinkServiceIMPL implements LinkService {
 
     @Override
     public String renameLink(String oldLinkName, String newLinkName) {
-        if (! linkRepository.existsByLinkName(oldLinkName)) throw new FIndException("Link " + oldLinkName + " already exists");
+        if (! linkRepository.existsByLinkName(oldLinkName)) throw new FIndException("Link " + oldLinkName + " does not exists");
         Links foundLink =  linkRepository.findByLinkName(oldLinkName);
         foundLink.setLinkName(newLinkName);
         foundLink.setLastupdatedTime(LocalDateTime.now());
@@ -64,7 +64,7 @@ public Links validateLink(String myGoogleLink, String mail){
     if (! linkRepository.existsByLinkName(myGoogleLink)) throw new LinkException("Link " + myGoogleLink + "does not exist");
     Links foundLink =  linkRepository.findByLinkName(myGoogleLink);
     if (! foundLink.getUserEmail().equals(mail)) throw new   LinkException("mail " + mail+ " is not a valid email address");
-
+return foundLink;
 }
 
     public Links mapLinkRequestToLink(LinkRequest linkRequest){
@@ -92,5 +92,7 @@ public Links validateLink(String myGoogleLink, String mail){
                 .numberOfLink(request.getNumberOfViews())
                 .build();
     }
+
+
 
 }
