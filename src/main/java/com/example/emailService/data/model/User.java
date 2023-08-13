@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Data
 @SuperBuilder
@@ -22,6 +25,8 @@ public class User {
     private String password;
     private boolean isEnabled;
     private long numberOfLinks;
+    @OneToMany()
+    private Set<FriendsConnection> listOfFriends = new HashSet<FriendsConnection>();
 //    @ElementCollection
 //    @CollectionTable(name = "user_links", joinColumns = @JoinColumn(name = "user_id"))
 //    @MapKeyColumn(name = "link_key")
