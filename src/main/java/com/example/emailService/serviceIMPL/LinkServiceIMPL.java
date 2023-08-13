@@ -29,6 +29,7 @@ public class LinkServiceIMPL implements LinkService {
            throw new LinkException("link Already exist");
        if (linkRequest.getUserEmail() == null || linkRequest.getLinkUrlAddress() == null)
            throw new LinkException("this operation can't be completed ");
+       if (linkRequest.getUserId() < 1) throw new LinkException("invalid user");
         return mapToResponse(linkRepository.save(mapLinkRequestToLink(linkRequest)));
     }
 
@@ -56,13 +57,15 @@ public class LinkServiceIMPL implements LinkService {
 
     @Override
     public String deleteLindByLabel(String myGoogleLink, String mail) {
-        if (! linkRepository.existsByLinkName(myGoogleLink)) throw new LinkException("Link " + myGoogleLink + "does not exist");
-            Links foundLink =  linkRepository.findByLinkName(myGoogleLink);
-            if (! foundLink.getUserEmail().equals(mail)) throw new   LinkException("mail " + mail+ " is not a valid email address");
-                linkRepository.delete(foundLink);
+       linkRepository.delete(validateLink(myGoogleLink, mail));
         return "deleted successfully";
     }
+public Links validateLink(String myGoogleLink, String mail){
+    if (! linkRepository.existsByLinkName(myGoogleLink)) throw new LinkException("Link " + myGoogleLink + "does not exist");
+    Links foundLink =  linkRepository.findByLinkName(myGoogleLink);
+    if (! foundLink.getUserEmail().equals(mail)) throw new   LinkException("mail " + mail+ " is not a valid email address");
 
+}
 
     public Links mapLinkRequestToLink(LinkRequest linkRequest){
    return  Links.builder()
@@ -76,10 +79,17 @@ public class LinkServiceIMPL implements LinkService {
     public long countMyLinks(String userEmail){
    return linkRepository.countAllByUserEmail(userEmail);
     }
+
+    @Override
+    public LinkResponse viewLink(String linkLabel, String mail) {
+   Links foundLink = validateLink(linkLabel, mail);
+   foundLink.setNumberOfViews(+1);
+   return mapToResponse(linkRepository.save(foundLink));
+    }
     public LinkResponse mapToResponse(Links request) {
         return LinkResponse.builder()
                 .linkName(request.getLinkName())
-                .numberOfLink(request.getNumberOfLinks())
+                .numberOfLink(request.getNumberOfViews())
                 .build();
     }
 

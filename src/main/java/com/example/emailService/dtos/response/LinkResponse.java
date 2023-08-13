@@ -10,5 +10,6 @@ public class LinkResponse {
     private String linkName;
     private long numberOfLink;
     private String userName;
+    private String linkUrl;
     
 }

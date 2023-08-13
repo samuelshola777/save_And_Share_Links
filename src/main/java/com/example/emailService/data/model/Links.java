@@ -23,7 +23,8 @@ public class Links {
     private String linkUrlAddress;
     private String linkName;
     private String userEmail;
-    private long numberOfviews;
+    private long numberOfViews;
+    private long numberOfLinks;
     private LocalDateTime createdTime;
     private LocalDateTime lastupdatedTime;
 

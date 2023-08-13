@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class LinkServiceTest {
@@ -63,5 +64,9 @@ class LinkServiceTest {
     @Test
     void testThatWeCanDeleteLinkByLabel() {
         assertDoesNotThrow(()->{linkService.deleteLindByLabel("my google link","boneshaker896@gmail.com");});
+    }
+    @Test
+    void testThatWeCanViewLink(){
+       assertEquals("http://google.com",linkService.viewLink("my google link", "boneshaker896@gmail.com").getLinkUrl());
     }
 }
