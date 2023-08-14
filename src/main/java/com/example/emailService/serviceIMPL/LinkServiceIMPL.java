@@ -60,7 +60,7 @@ public class LinkServiceIMPL implements LinkService {
         return "deleted successfully";
     }
 public Links validateLink(String myGoogleLink, String mail){
-    if (! linkRepository.existsByLinkName(myGoogleLink)) throw new LinkException("Link " + myGoogleLink + "does not exist");
+    if (! linkRepository.existsByLinkName(myGoogleLink)) throw new LinkException("Link " + myGoogleLink + " does not exist");
     Links foundLink =  linkRepository.findByLinkName(myGoogleLink);
     if (! foundLink.getUserEmail().equals(mail)) throw new   LinkException("mail " + mail+ " is not a valid email address");
 return foundLink;

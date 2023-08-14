@@ -2,6 +2,7 @@ package com.example.emailService.serviceIMPL;
 
 import com.example.emailService.Exception.UserException;
 import com.example.emailService.data.model.Confirmation;
+import com.example.emailService.data.model.Links;
 import com.example.emailService.data.model.User;
 import com.example.emailService.data.repository.ConfirmationRepository;
 import com.example.emailService.data.repository.UserRepository;
@@ -51,7 +52,7 @@ public class UserServiceImpl implements UserService {
         return Boolean.TRUE;
     }
     @Override
-    public LinkResponse saverUrlLink(LinkRequest linkRequest1) {
+    public LinkResponse saveUrlLink(LinkRequest linkRequest1) {
         linkRequest1.setUserId(userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail()).getId());
         return linkService.createLink(linkRequest1);
     }
@@ -60,11 +61,26 @@ public class UserServiceImpl implements UserService {
     public long countMyLinks(String mail) {
         return linkService.countMyLinks(mail);
     }
+    private Links validateUserLink(String userEmail,String linkUrlName){
+        Links foundLinks = linkService.findLinkByLabel(linkUrlName);
+        if (!foundLinks.getUserEmail().equals(userEmail)) throw new UserException("invalid email address");
+       return foundLinks;
+    }
 
     @Override
     public String renameUrlLink(String mail, String oldLinkName, String newLinkName) {
-    if (!linkService.findLinkByLabel(oldLinkName).getUserEmail().equals(mail)) throw new UserException("invalid email address");
+   validateUserLink(mail, oldLinkName);
     return linkService.renameLink(oldLinkName, newLinkName);
+    }
+
+    @Override
+    public Links userViewLink(String email, String linkName) {
+        return validateUserLink(email, linkName);
+    }
+
+    @Override
+    public void deleteLink(String mail, String brevoSiteLink) {
+        linkService.deleteLindByLabel(brevoSiteLink,mail);
     }
 
     private User mapToUser(UserRequest userRequest){

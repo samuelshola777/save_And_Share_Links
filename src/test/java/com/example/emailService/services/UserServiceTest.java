@@ -2,7 +2,6 @@ package com.example.emailService.services;
 
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -73,15 +72,25 @@ private UserRequest userRequest3;
     }
     @Test
     void testThatWeCanCreateLink(){
-        userService.saverUrlLink(linkRequest1);
-        userService.saverUrlLink(linkRequest2);
-        userService.saverUrlLink(linkRequest3);
+        userService.saveUrlLink(linkRequest1);
+        userService.saveUrlLink(linkRequest2);
+        userService.saveUrlLink(linkRequest3);
         assertEquals(3, userService.countMyLinks("samuelsegun@gmail.com"));
 
     }
     @Test
     void testThatUserCanRemainLink(){
       assertDoesNotThrow(()->{  userService.renameUrlLink("samuelsegun@gmail.com","my gmail api link","brevo site link");});
+    }
+    @Test
+    void testThatUserCanViewLink(){
+        assertEquals("samuelsegun@gmail.com",userService.userViewLink("samuelsegun@gmail.com","brevo site link").getUserEmail());
+    }
+    @Test
+    void testThatUserCanDeleteLink() {
+        assertDoesNotThrow(()-> {
+            userService.deleteLink("samuelsegun@gmail.com","brevo site link");
+        });
     }
 
 }
