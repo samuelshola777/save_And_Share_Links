@@ -73,11 +73,15 @@ private UserRequest userRequest3;
     }
     @Test
     void testThatWeCanCreateLink(){
-
         userService.saverUrlLink(linkRequest1);
         userService.saverUrlLink(linkRequest2);
         userService.saverUrlLink(linkRequest3);
         assertEquals(3, userService.countMyLinks("samuelsegun@gmail.com"));
 
     }
+    @Test
+    void testThatUserCanRemainLink(){
+      assertDoesNotThrow(()->{  userService.renameUrlLink("samuelsegun@gmail.com","my gmail api link","brevo site link");});
+    }
+
 }

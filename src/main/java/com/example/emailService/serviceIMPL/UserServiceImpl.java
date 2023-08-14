@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
-
      User savedUser =userRepository.save(mapToUser(user));
       Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
@@ -51,7 +50,6 @@ public class UserServiceImpl implements UserService {
       userRepository.save(user);
         return Boolean.TRUE;
     }
-
     @Override
     public LinkResponse saverUrlLink(LinkRequest linkRequest1) {
         linkRequest1.setUserId(userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail()).getId());
@@ -61,6 +59,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public long countMyLinks(String mail) {
         return linkService.countMyLinks(mail);
+    }
+
+    @Override
+    public String renameUrlLink(String mail, String oldLinkName, String newLinkName) {
+    if (!linkService.findLinkByLabel(oldLinkName).getUserEmail().equals(mail)) throw new UserException("invalid email address");
+    return linkService.renameLink(oldLinkName, newLinkName);
     }
 
     private User mapToUser(UserRequest userRequest){

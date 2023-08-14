@@ -12,4 +12,6 @@ public interface UserService {
    LinkResponse saverUrlLink(LinkRequest linkRequest1);
 
     long countMyLinks(String mail);
+
+    String renameUrlLink(String mail, String oldLinkName, String newLinkName);
 }

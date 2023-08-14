@@ -1,5 +1,6 @@
 package com.example.emailService.services;
 
+import com.example.emailService.data.model.Links;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.response.LinkResponse;
 
@@ -16,4 +17,5 @@ public interface LinkService {
     long countMyLinks(String userEmail);
 
     LinkResponse viewLink(String linkLabel, String mail);
+    Links findLinkByLabel(String linkLabel);
 }

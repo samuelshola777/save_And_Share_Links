@@ -9,7 +9,6 @@ import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.services.LinkService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -86,6 +85,14 @@ return foundLink;
    foundLink.setNumberOfViews(+1);
    return mapToResponse(linkRepository.save(foundLink));
     }
+
+    @Override
+    public Links findLinkByLabel(String linkLabel) {
+    Links links = linkRepository.findByLinkName(linkLabel);
+    if (links == null) throw new LinkException("Could not find link by label " + linkLabel);
+       return links;
+    }
+
     public LinkResponse mapToResponse(Links request) {
         return LinkResponse.builder()
                 .linkName(request.getLinkName())
