@@ -72,7 +72,7 @@ return foundLink;
            .linkUrlAddress(linkRequest.getLinkUrlAddress())
            .linkName(linkRequest.getLinkName())
            .userEmail(linkRequest.getUserEmail())
-           .id(linkRequest.getUserId())
+           .userId(linkRequest.getUserId())
            .createdTime(LocalDateTime.now())
            .build();
     }

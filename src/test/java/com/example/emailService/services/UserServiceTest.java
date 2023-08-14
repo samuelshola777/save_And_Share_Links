@@ -1,22 +1,29 @@
 package com.example.emailService.services;
 
+import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
-@RequiredArgsConstructor
+
 class UserServiceTest {
-    private final UserService userService;
+    @Autowired
+    private  UserService userService;
 
 
 private UserRequest userRequest1;
 private UserRequest userRequest2;
 private UserRequest userRequest3;
+
+    private LinkRequest linkRequest1;
+    private LinkRequest linkRequest2;
+    private LinkRequest linkRequest3;
 
     @BeforeEach
     void setUp() {
@@ -34,6 +41,22 @@ private UserRequest userRequest3;
         userRequest3.setUserName("favor mnbata");
         userRequest3.setPassword("SAMUELSHOLA14@GMAIL.COM");
         userRequest3.setEmail("i love java");
+
+        linkRequest1 = new LinkRequest();
+        linkRequest1.setLinkUrlAddress("http://google.com");
+        linkRequest1.setLinkName("my google link");
+        linkRequest1.setUserEmail("samuelsegun@gmail.com");
+
+        linkRequest2 = new LinkRequest();
+        linkRequest2.setUserEmail("samuelsegun@gmail.com");
+        linkRequest2.setLinkName("my github link");
+        linkRequest2.setLinkUrlAddress("http://linkedin.com");
+
+
+        linkRequest3 = new LinkRequest();
+        linkRequest3.setLinkName("my gmail api link");
+        linkRequest3.setLinkUrlAddress("https://github.com/samuelshola777");
+        linkRequest3.setUserEmail("samuelsegun@gmail.com");
     }
 
     @AfterEach
@@ -47,5 +70,14 @@ private UserRequest userRequest3;
             userService.saverUser(userRequest2);
             userService.saverUser(userRequest3);
         });
+    }
+    @Test
+    void testThatWeCanCreateLink(){
+
+        userService.saverUrlLink(linkRequest1);
+        userService.saverUrlLink(linkRequest2);
+        userService.saverUrlLink(linkRequest3);
+        assertEquals(3, userService.countMyLinks("samuelsegun@gmail.com"));
+
     }
 }
