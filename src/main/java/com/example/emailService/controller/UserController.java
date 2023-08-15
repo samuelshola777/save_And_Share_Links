@@ -15,7 +15,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class UserController {
+public class
+UserController {
     private final UserService userService;
 @PostMapping("/register")
    public ResponseEntity<HttpResponse> createUser(@RequestBody UserRequest user) {

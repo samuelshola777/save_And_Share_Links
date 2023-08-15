@@ -2,9 +2,11 @@ package com.example.emailService.serviceIMPL;
 
 import com.example.emailService.Exception.UserException;
 import com.example.emailService.data.model.Confirmation;
+import com.example.emailService.data.model.FriendsConnection;
 import com.example.emailService.data.model.Links;
 import com.example.emailService.data.model.User;
 import com.example.emailService.data.repository.ConfirmationRepository;
+import com.example.emailService.data.repository.FriendsConnectionRepository;
 import com.example.emailService.data.repository.UserRepository;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
@@ -25,6 +27,7 @@ public class UserServiceImpl implements UserService {
     private final ConfirmationRepository confirmationRepository;
     private final EmailService emailService;
     private final LinkService linkService;
+    private final FriendsConnectionRepository friendsRepository;
     @Override
     public User saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
@@ -90,6 +93,19 @@ public class UserServiceImpl implements UserService {
     if (! foundUser.getPassword().equalsIgnoreCase(password)) throw new UserException("Invalid password");
     foundUser.setLoggedIn(true);
         return mapToUserResponse(userRepository.save(foundUser));
+    }
+
+    @Override
+    public FriendsConnection userAddFriend(String userEmail, String friendUserName) {
+        User foundUser = findByUserName(friendUserName);
+
+        return null;
+    }
+
+    private User findByUserName(String friendUserName) {
+        User user = userRepository.findUserByUserName(friendUserName);
+        if (user == null) throw new UserException("User with the user name " + friendUserName + "  not found");
+        return user;
     }
 
     private User findByEmail(String mail) {

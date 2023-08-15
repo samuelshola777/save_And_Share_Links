@@ -10,5 +10,6 @@ public class UserResponse {
     private long numberOfLinks;
     private boolean loggedIn;
     private String userName;
+    private long numberOfFriends;
 
 }

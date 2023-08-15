@@ -98,7 +98,7 @@ private UserRequest userRequest3;
     }
     @Test
     void testThatUserCanAddFriend(){
-        
+    assertEquals(true, userService.userAddFriend("samuelsegun@gmail.com","favor mnbata"));
 
     }
 
