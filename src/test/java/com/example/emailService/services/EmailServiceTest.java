@@ -1,7 +1,6 @@
 package com.example.emailService.services;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.example.emailService.EveryThingEmail.EmailServices.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EmailServiceTest {
     @Autowired
-     EmailService emailService;
+    EmailService emailService;
 
     @Test
     void sendSimpleMailMessage() {

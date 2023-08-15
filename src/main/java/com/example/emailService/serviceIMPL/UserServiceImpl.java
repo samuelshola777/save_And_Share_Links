@@ -12,7 +12,6 @@ import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.dtos.response.UserResponse;
-import com.example.emailService.services.EmailService;
 import com.example.emailService.services.LinkService;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ConfirmationRepository confirmationRepository;
-    private final EmailService emailService;
+
     private final LinkService linkService;
     private final FriendsConnectionRepository friendsRepository;
     @Override
@@ -34,7 +33,6 @@ public class UserServiceImpl implements UserService {
      User savedUser =userRepository.save(mapToUser(user));
       Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
-        emailService.sendSimpleMailMessage("boneshaker",user.getEmail(),savedConfirmation.getToken());
         return savedUser;
     }
 
