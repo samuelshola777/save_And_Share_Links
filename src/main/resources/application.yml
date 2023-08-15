@@ -44,6 +44,20 @@ spring:
 server:
   port: ${SERVER_PORT}
 
-BREVO_API: ${BREVO_API_KEY}
+#BREVO_API: ${BREVO_API_KEY}
 
-
+#spring
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USERNAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    test-connection: false

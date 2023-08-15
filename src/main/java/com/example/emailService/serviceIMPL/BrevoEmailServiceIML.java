@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 
 public class BrevoEmailServiceIML implements BrevoEmailService {
-    @Autowired
+@Autowired
 private  BrevoConfig brevoConfig;
 @Value("${MAIL_URL}")
  String brevoMailAddress;

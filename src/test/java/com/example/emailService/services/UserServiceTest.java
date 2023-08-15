@@ -92,5 +92,10 @@ private UserRequest userRequest3;
             userService.deleteLink("samuelsegun@gmail.com","brevo site link");
         });
     }
+    @Test
+    void testThatUserCanAddFriend(){
+        
+
+    }
 
 }
