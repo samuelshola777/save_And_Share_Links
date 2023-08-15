@@ -25,6 +25,7 @@ public class User {
     private String password;
     private boolean isEnabled;
     private long numberOfLinks;
+    private boolean loggedIn;
     @OneToMany()
     private Set<FriendsConnection> listOfFriends = new HashSet<FriendsConnection>();
 //    @ElementCollection

@@ -5,6 +5,7 @@ import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.dtos.response.LinkResponse;
+import com.example.emailService.dtos.response.UserResponse;
 
 public interface UserService {
     User saverUser(UserRequest user);
@@ -19,4 +20,6 @@ public interface UserService {
     Links userViewLink(String email, String brevoSiteLink);
 
     void deleteLink(String mail, String brevoSiteLink);
+
+    UserResponse userLogin(String mail, String password);
 }

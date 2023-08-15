@@ -9,6 +9,7 @@ import com.example.emailService.data.repository.UserRepository;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.dtos.response.LinkResponse;
+import com.example.emailService.dtos.response.UserResponse;
 import com.example.emailService.services.EmailService;
 import com.example.emailService.services.LinkService;
 import com.example.emailService.services.UserService;
@@ -83,6 +84,20 @@ public class UserServiceImpl implements UserService {
         linkService.deleteLindByLabel(brevoSiteLink,mail);
     }
 
+    @Override
+    public UserResponse userLogin(String mail, String password) {
+    User foundUser = findByEmail(mail);
+    if (! foundUser.getPassword().equalsIgnoreCase(password)) throw new UserException("Invalid password");
+    foundUser.setLoggedIn(true);
+        return mapToUserResponse(userRepository.save(foundUser));
+    }
+
+    private User findByEmail(String mail) {
+        User foundUser = userRepository.findByEmailIgnoreCase(mail);
+        if (foundUser == null) throw new UserException("Could not find user with email " + mail);
+        return foundUser;
+    }
+
     private User mapToUser(UserRequest userRequest){
         return User.builder()
                 .userName(userRequest.getUserName())
@@ -90,5 +105,12 @@ public class UserServiceImpl implements UserService {
                 .password(userRequest.getPassword())
                 .isEnabled(false)
                 .build();
+    }
+    private UserResponse mapToUserResponse(User user){
+    return UserResponse.builder()
+            .loggedIn(user.isLoggedIn())
+            .numberOfLinks(user.getNumberOfLinks())
+            .userName(user.getUserName())
+            .build();
     }
 }

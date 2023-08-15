@@ -93,6 +93,10 @@ private UserRequest userRequest3;
         });
     }
     @Test
+    void testThatUserCanLogin(){
+        assertEquals(true,  userService.userLogin("samuelsegun@gmail.com","samuel segun").isLoggedIn());
+    }
+    @Test
     void testThatUserCanAddFriend(){
         
 
