@@ -1,5 +1,6 @@
 package com.example.emailService.serviceIMPL;
 
+import com.example.emailService.EveryThingEmail.EmailServices.FriendRequestMailSenderService;
 import com.example.emailService.Exception.UserException;
 import com.example.emailService.data.model.Confirmation;
 import com.example.emailService.data.model.FriendsConnection;
@@ -27,12 +28,14 @@ public class UserServiceImpl implements UserService {
 
     private final LinkService linkService;
     private final FriendsConnectionRepository friendsRepository;
+    private final FriendRequestMailSenderService friendRequestMail;
     @Override
     public User saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
      User savedUser =userRepository.save(mapToUser(user));
       Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
+
         return savedUser;
     }
 
