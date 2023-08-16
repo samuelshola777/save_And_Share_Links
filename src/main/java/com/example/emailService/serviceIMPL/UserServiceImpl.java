@@ -93,10 +93,17 @@ public class UserServiceImpl implements UserService {
         return mapToUserResponse(userRepository.save(foundUser));
     }
 
+
     @Override
     public FriendsConnection userAddFriend(String userEmail, String friendUserName) {
-        User foundUser = findByUserName(friendUserName);
-
+        User foundUser = findByEmail(userEmail);
+        FriendsConnection   friendConnection =  FriendsConnection.builder()
+                .friendName(friendUserName)
+                .friendWith(foundUser.getUserName())
+                .friendWithEmailAddress(findByUserName(friendUserName).getEmail())
+                .nowFriends(false)
+                .build();
+// todo : send friend request mail notification to friend
         return null;
     }
 
