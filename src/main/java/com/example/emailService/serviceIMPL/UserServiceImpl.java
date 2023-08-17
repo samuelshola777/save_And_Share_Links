@@ -38,6 +38,12 @@ public class UserServiceImpl implements UserService {
 
         return savedUser;
     }
+    public void acceptFriendRequest(String userName, String friendName){
+        User foundUser =
+        for (int i = 0; i < ; i++) {
+
+        }
+    }
 
 
     @Override
@@ -106,9 +112,12 @@ public class UserServiceImpl implements UserService {
                 .friendWithEmailAddress(findByUserName(friendUserName).getEmail())
                 .nowFriends(false)
                 .build();
+        foundUser.getListOfFriends().add(friendsRepository.save(friendConnection));
 // todo : send friend request mail notification to friend
+
         return null;
     }
+
 
     private User findByUserName(String friendUserName) {
         User user = userRepository.findUserByUserName(friendUserName);
