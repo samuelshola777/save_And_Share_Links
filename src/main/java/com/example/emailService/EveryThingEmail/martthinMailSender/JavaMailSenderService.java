@@ -1,4 +1,4 @@
-package com.example.emailService.martthinMailSender;
+package com.example.emailService.EveryThingEmail.martthinMailSender;
 
 import jakarta.mail.MessagingException;
 

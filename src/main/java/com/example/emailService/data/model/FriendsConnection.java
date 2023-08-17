@@ -16,5 +16,7 @@ public class FriendsConnection {
     private String friendRequestSender;
     private String friendEmailAddress;
     private boolean nowFriends;
+    @ManyToOne
+    private User user;
 
 }

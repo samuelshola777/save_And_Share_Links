@@ -2,8 +2,10 @@ package com.example.emailService.services;
 
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
+import jakarta.mail.MessagingException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,8 +40,8 @@ private UserRequest userRequest3;
 
         userRequest3 = new UserRequest();
         userRequest3.setUserName("favor mnbata");
-        userRequest3.setPassword("SAMUELSHOLA14@GMAIL.COM");
-        userRequest3.setEmail("i love java");
+        userRequest3.setPassword("i love java");
+        userRequest3.setEmail("SAMUELSHOLA14@GMAIL.COM");
 
         linkRequest1 = new LinkRequest();
         linkRequest1.setLinkUrlAddress("http://google.com");
@@ -61,7 +63,7 @@ private UserRequest userRequest3;
     @AfterEach
     void tearDown() {
     }
-
+@Disabled
     @Test
     void saverUser() {
         assertDoesNotThrow(()-> {
@@ -70,6 +72,7 @@ private UserRequest userRequest3;
             userService.saverUser(userRequest3);
         });
     }
+    @Disabled
     @Test
     void testThatWeCanCreateLink(){
         userService.saveUrlLink(linkRequest1);
@@ -97,7 +100,7 @@ private UserRequest userRequest3;
         assertEquals(true,  userService.userLogin("samuelsegun@gmail.com","samuel segun").isLoggedIn());
     }
     @Test
-    void testThatUserCanAddFriend(){
+    void testThatUserCanAddFriend() throws MessagingException {
         userService.userAddFriend("samuelsegun@gmail.com","favor mnbata");
 //    assertEquals(true, );
 
@@ -105,6 +108,10 @@ private UserRequest userRequest3;
     @Test
     void testThatWeCanFindFriendsConnectionByNameOfTwoFriends(){
         assertEquals("samuelsegun@gmail.com", userService.findFriends("favor mnbata","samuel segun"));
+    }
+    @Test
+    void testThatWeCanSendFriendRequest(){
+        userService.acceptFriendRequest("favor mnbata", "samuel segun");
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.emailService.serviceIMPL;
 
+import com.example.emailService.EveryThingEmail.EmailRequests.FriendRequestMailRequest;
 import com.example.emailService.EveryThingEmail.EmailServices.FriendRequestMailSenderService;
 import com.example.emailService.Exception.FriendsConnectionException;
 import com.example.emailService.Exception.UserException;
@@ -16,6 +17,7 @@ import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.dtos.response.UserResponse;
 import com.example.emailService.services.LinkService;
 import com.example.emailService.services.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.juli.logging.Log;
@@ -27,7 +29,6 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final ConfirmationRepository confirmationRepository;
-
     private final LinkService linkService;
     private final FriendsConnectionRepository friendsRepository;
     private final FriendRequestMailSenderService friendRequestMail;
@@ -52,8 +53,6 @@ public class UserServiceImpl implements UserService {
          log.info(e.getMessage());
          throw new UserException(("invalid token"));
         }
-
-
       user.setEnabled(true);
       userRepository.save(user);
         return Boolean.TRUE;
@@ -73,9 +72,6 @@ public class UserServiceImpl implements UserService {
         if (!foundLinks.getUserEmail().equals(userEmail)) throw new UserException("invalid email address");
        return foundLinks;
     }
-
-
-
 
     @Override
     public String renameUrlLink(String mail, String oldLinkName, String newLinkName) {
@@ -108,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public FriendsConnection userAddFriend(String userEmail, String friendUserName) {
+    public FriendsConnection userAddFriend(String userEmail, String friendUserName) throws MessagingException {
         User foundUser = findByEmail(userEmail);
      FriendsConnection foundConnection = findFriends(friendUserName, foundUser.getUserName());
      if (foundConnection != null) throw new FriendsConnectionException("friend connection already exists");
@@ -121,7 +117,27 @@ public class UserServiceImpl implements UserService {
         friendsRepository.save(friendConnection);
 // todo : send friend request mail notification to friend
 
-        return null;
+//        friendRequestMail.friendRequestMailSender(
+//                FriendRequestMailRequest.builder()
+//                        .from(foundUser.getEmail())
+//                        .to(friendConnection.getFriendEmailAddress())
+//                        .build()
+//        );
+        return acceptFriendRequest(friendUserName, foundUser.getUserName()); //
+    }
+
+
+    @Override
+    public void deleteUserByEmail(String email) {
+      userRepository.delete(findByEmail(email));
+    }
+
+    @Override
+    public FriendsConnection acceptFriendRequest(String friendUserName, String friendRequestUserName) {
+        FriendsConnection foundFriendConnection = findFriends(friendUserName, friendRequestUserName);
+        if (foundFriendConnection == null) throw new FriendsConnectionException("No friend request sent to  " + friendUserName);
+        foundFriendConnection.setNowFriends(true);
+       return   friendsRepository.save(foundFriendConnection);
     }
 
 
@@ -152,4 +168,6 @@ public class UserServiceImpl implements UserService {
             .userName(user.getUserName())
             .build();
     }
+
+
 }

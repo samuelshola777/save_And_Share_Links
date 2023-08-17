@@ -1,4 +1,4 @@
-package com.example.emailService.services;
+package com.example.emailService.EveryThingEmail.EmailServices;
 
 import com.example.emailService.dtos.request.EmailRequest;
 

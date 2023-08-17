@@ -1,5 +1,6 @@
 package com.example.emailService.controller;
 
+import com.example.emailService.data.model.FriendsConnection;
 import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.services.UserService;
@@ -48,7 +49,18 @@ return ResponseEntity.ok().body(
 
    }
 
-
+    @GetMapping("/accept")
+    public ResponseEntity<HttpResponse> acceptFriendRequest(@RequestParam String friendUserName,@RequestParam String friendRequestSenderUserName){
+    userService.acceptFriendRequest(friendUserName, friendRequestSenderUserName);
+    return ResponseEntity.ok().body(
+            HttpResponse.builder()
+                    .timeStamp(LocalDateTime.now().toString())
+                    .data(Map.of("FriendRequest Accept successfully","Accepted"))
+                    .status(HttpStatus.OK)
+                    .statusCode(HttpStatus.OK.value())
+                    .build()
+    );
+    }
 
 
 
