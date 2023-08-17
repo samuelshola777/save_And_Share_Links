@@ -101,5 +101,9 @@ private UserRequest userRequest3;
     assertEquals(true, userService.userAddFriend("samuelsegun@gmail.com","favor mnbata"));
 
     }
+    @Test
+    void testThatWeCanFindFriendsConnectionByNameOfTwoFriends(){
+        assertEquals("samuelsegun@gmail.com", userService.findFriends("favor mnbata","samuel segun"));
+    }
 
 }

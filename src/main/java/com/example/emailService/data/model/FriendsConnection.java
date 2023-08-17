@@ -13,7 +13,7 @@ public class FriendsConnection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String friendName;
-    private String friendWith;
+    private String friendRequestSender;
     private String friendWithEmailAddress;
     private boolean nowFriends;
 

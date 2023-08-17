@@ -39,10 +39,17 @@ public class UserServiceImpl implements UserService {
         return savedUser;
     }
     public void acceptFriendRequest(String userName, String friendName){
-        User foundUser =
-        for (int i = 0; i < ; i++) {
+        User foundUser = findByUserName(userName);
+        FriendsConnection friendsConnection = new FriendsConnection();
+        for (int i = 0; i < foundUser.getListOfFriends().size(); i++) {
+           if (foundUser.getListOfFriends().get(i).getFriendName().equalsIgnoreCase(friendName)){
+               friendsConnection = foundUser.getListOfFriends().get(i);
+
+           }
 
         }
+        friendsConnection.setNowFriends(true);
+
     }
 
 
@@ -85,6 +92,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public FriendsConnection findFriends(String friendName, String friendRequestSender) {
+        return friendsRepository.findByFriendNameAndFriendRequestSender( friendName,  friendRequestSender);
+    }
+
+    @Override
     public Links userViewLink(String email, String linkName) {
         return validateUserLink(email, linkName);
     }
@@ -108,7 +120,7 @@ public class UserServiceImpl implements UserService {
         User foundUser = findByEmail(userEmail);
         FriendsConnection   friendConnection =  FriendsConnection.builder()
                 .friendName(friendUserName)
-                .friendWith(foundUser.getUserName())
+                .friendRequestSender(foundUser.getUserName())
                 .friendWithEmailAddress(findByUserName(friendUserName).getEmail())
                 .nowFriends(false)
                 .build();

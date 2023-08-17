@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,7 +30,7 @@ public class User {
     private boolean loggedIn;
     private long numberOfFriends;
     @OneToMany()
-    private Set<FriendsConnection> listOfFriends = new HashSet<FriendsConnection>();
+    private List<FriendsConnection> listOfFriends = new ArrayList<FriendsConnection>();
 //    @ElementCollection
 //    @CollectionTable(name = "user_links", joinColumns = @JoinColumn(name = "user_id"))
 //    @MapKeyColumn(name = "link_key")
