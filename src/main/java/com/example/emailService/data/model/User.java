@@ -29,8 +29,8 @@ public class User {
     private long numberOfLinks;
     private boolean loggedIn;
     private long numberOfFriends;
-    @OneToMany()
-    private List<FriendsConnection> listOfFriends = new ArrayList<FriendsConnection>();
+    @OneToMany(fetch = FetchType.EAGER)
+    private final List<FriendsConnection> listOfFriends = new ArrayList<FriendsConnection>();
 //    @ElementCollection
 //    @CollectionTable(name = "user_links", joinColumns = @JoinColumn(name = "user_id"))
 //    @MapKeyColumn(name = "link_key")

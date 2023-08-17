@@ -1,6 +1,7 @@
 package com.example.emailService.serviceIMPL;
 
 import com.example.emailService.EveryThingEmail.EmailServices.FriendRequestMailSenderService;
+import com.example.emailService.Exception.FriendsConnectionException;
 import com.example.emailService.Exception.UserException;
 import com.example.emailService.data.model.Confirmation;
 import com.example.emailService.data.model.FriendsConnection;
@@ -17,6 +18,7 @@ import com.example.emailService.services.LinkService;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.juli.logging.Log;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,19 +39,6 @@ public class UserServiceImpl implements UserService {
         // TODO send email notification with token
 
         return savedUser;
-    }
-    public void acceptFriendRequest(String userName, String friendName){
-        User foundUser = findByUserName(userName);
-        FriendsConnection friendsConnection = new FriendsConnection();
-        for (int i = 0; i < foundUser.getListOfFriends().size(); i++) {
-           if (foundUser.getListOfFriends().get(i).getFriendName().equalsIgnoreCase(friendName)){
-               friendsConnection = foundUser.getListOfFriends().get(i);
-
-           }
-
-        }
-        friendsConnection.setNowFriends(true);
-
     }
 
 
@@ -85,6 +74,9 @@ public class UserServiceImpl implements UserService {
        return foundLinks;
     }
 
+
+
+
     @Override
     public String renameUrlLink(String mail, String oldLinkName, String newLinkName) {
    validateUserLink(mail, oldLinkName);
@@ -118,13 +110,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public FriendsConnection userAddFriend(String userEmail, String friendUserName) {
         User foundUser = findByEmail(userEmail);
+     FriendsConnection foundConnection = findFriends(friendUserName, foundUser.getUserName());
+     if (foundConnection != null) throw new FriendsConnectionException("friend connection already exists");
         FriendsConnection   friendConnection =  FriendsConnection.builder()
                 .friendName(friendUserName)
                 .friendRequestSender(foundUser.getUserName())
-                .friendWithEmailAddress(findByUserName(friendUserName).getEmail())
+                .friendEmailAddress(findByUserName(friendUserName).getEmail())
                 .nowFriends(false)
                 .build();
-        foundUser.getListOfFriends().add(friendsRepository.save(friendConnection));
+        friendsRepository.save(friendConnection);
 // todo : send friend request mail notification to friend
 
         return null;

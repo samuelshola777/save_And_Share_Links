@@ -14,7 +14,7 @@ public class FriendsConnection {
     private long id;
     private String friendName;
     private String friendRequestSender;
-    private String friendWithEmailAddress;
+    private String friendEmailAddress;
     private boolean nowFriends;
 
 }
