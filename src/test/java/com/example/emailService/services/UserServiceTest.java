@@ -25,6 +25,7 @@ private UserRequest userRequest3;
     private LinkRequest linkRequest1;
     private LinkRequest linkRequest2;
     private LinkRequest linkRequest3;
+    private LinkRequest linkRequest4;
 
     @BeforeEach
     void setUp() {
@@ -58,6 +59,11 @@ private UserRequest userRequest3;
         linkRequest3.setLinkName("my gmail api link");
         linkRequest3.setLinkUrlAddress("https://github.com/samuelshola777");
         linkRequest3.setUserEmail("samuelsegun@gmail.com");
+
+        linkRequest4 = new LinkRequest();
+        linkRequest4.setLinkName("java google cloud api page");
+        linkRequest4.setLinkUrlAddress("https://developers.google.com/gmail/api/quickstart/java");
+        linkRequest4.setUserEmail("SAMUELSHOLA14@GMAIL.COM");
     }
 
     @AfterEach
@@ -75,9 +81,10 @@ private UserRequest userRequest3;
     @Disabled
     @Test
     void testThatWeCanCreateLink(){
-        userService.saveUrlLink(linkRequest1);
-        userService.saveUrlLink(linkRequest2);
-        userService.saveUrlLink(linkRequest3);
+//        userService.saveUrlLink(linkRequest1);
+//        userService.saveUrlLink(linkRequest2);
+//        userService.saveUrlLink(linkRequest3);
+        userService.saveUrlLink(linkRequest4);
         assertEquals(3, userService.countMyLinks("samuelsegun@gmail.com"));
 
     }

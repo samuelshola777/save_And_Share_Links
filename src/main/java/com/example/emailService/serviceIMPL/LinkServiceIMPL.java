@@ -28,7 +28,7 @@ public class LinkServiceIMPL implements LinkService {
            throw new LinkException("link Already exist");
        if (linkRequest.getUserEmail() == null || linkRequest.getLinkUrlAddress() == null)
            throw new LinkException("this operation can't be completed ");
-       if (linkRequest.getUserId() < 1) throw new LinkException("invalid user");
+       if (linkRequest.getUser() == null) throw new LinkException("invalid user");
         return mapToResponse(linkRepository.save(mapLinkRequestToLink(linkRequest)));
     }
 
@@ -37,7 +37,7 @@ public class LinkServiceIMPL implements LinkService {
         if (! linkRepository.existsByLinkName(oldLinkName)) throw new FIndException("Link " + oldLinkName + " does not exists");
         Links foundLink =  linkRepository.findByLinkName(oldLinkName);
         foundLink.setLinkName(newLinkName);
-        foundLink.setLastupdatedTime(LocalDateTime.now());
+        foundLink.setLastUpdatedTime(LocalDateTime.now());
         linkRepository.save(foundLink);
         return "new name set successfully";
     }
@@ -72,6 +72,7 @@ return foundLink;
            .linkName(linkRequest.getLinkName())
            .userEmail(linkRequest.getUserEmail())
            .createdTime(LocalDateTime.now())
+           .user(linkRequest.getUser())
            .build();
     }
     public long countMyLinks(String userEmail){

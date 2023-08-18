@@ -1,5 +1,6 @@
 package com.example.emailService.dtos.request;
 
+import com.example.emailService.data.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ public class LinkRequest {
     private String linkUrlAddress;
     private String linkName;
     private String userEmail;
-    private long userId;
+    private User user;
     private long numberOfLinks;
     private String userName;
 }
