@@ -148,6 +148,7 @@ public class UserServiceImpl implements UserService {
         String userName = findByEmail(linkSenderUserEmail).getUserName();
     if (! findFriends(friendUserName,userName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
     Links foundLink = linkService.findLink(linkSenderUserEmail,linkLable);
+    if (linkService.findLink(findByUserName(friendUserName).getEmail(), linkLable) != null) throw new LinkException("user with the name " + friendUserName+" already have link at hand");
    Links savedLink =  linkService.saveLink( Links.builder()
                        .createdTime(LocalDateTime.now())
                        .linkName(foundLink.getLinkName())
