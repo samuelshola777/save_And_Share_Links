@@ -8,6 +8,7 @@ import com.example.emailService.Exception.UserException;
 import com.example.emailService.data.model.*;
 import com.example.emailService.data.repository.ConfirmationRepository;
 import com.example.emailService.data.repository.FriendsConnectionRepository;
+import com.example.emailService.data.repository.ShareHistoryRepository;
 import com.example.emailService.data.repository.UserRepository;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     private final LinkService linkService;
     private final FriendsConnectionRepository friendsRepository;
     private final FriendRequestMailSenderService friendRequestMail;
+    private final ShareHistoryRepository shareHistoryRepository;
     @Override
     public User saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
@@ -59,7 +61,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public LinkResponse saveUrlLink(LinkRequest linkRequest1) {
-        linkRequest1.setUserId(userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail()).getId());
+        linkRequest1.setUser(userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail()));
         return linkService.createLink(linkRequest1);
     }
 
@@ -151,8 +153,12 @@ public class UserServiceImpl implements UserService {
                        .user(findByUserName(friendUserName))
                        .linkUrlAddress(foundLink.getLinkUrlAddress())
                        .build());
-
-        return null;
+   return shareHistoryRepository.save(ShareHistory.builder()
+           .sendTime(LocalDateTime.now())
+           .receiverUserName(friendUserName)
+           .senderUserName(linkSenderUserName)
+           .sharedTime(LocalDateTime.now())
+           .build());
     }
 
 
