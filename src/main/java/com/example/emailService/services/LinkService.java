@@ -18,4 +18,8 @@ public interface LinkService {
 
     LinkResponse viewLink(String linkLabel, String mail);
     Links findLinkByLabel(String linkLabel);
+
+    Links findLink(String userEmail, String  linkLabel);
+
+    Links saveLink(Links link);
 }

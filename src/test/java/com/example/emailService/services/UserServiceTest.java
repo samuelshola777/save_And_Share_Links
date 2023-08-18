@@ -111,7 +111,14 @@ private UserRequest userRequest3;
     }
     @Test
     void testThatWeCanSendFriendRequest(){
-        userService.acceptFriendRequest("favor mnbata", "samuel segun");
+       assertTrue( userService.acceptFriendRequest("favor mnbata", "samuel segun").isNowFriends());
+    }
+    @Test
+    void testThatWeCanSendLinkToFriend(){
+        assertDoesNotThrow(()-> {
+            userService.sendLinkToFriend("favor mnbata", "samuel segun","my github link");
+        });
+
     }
 
 }

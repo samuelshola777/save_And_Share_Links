@@ -13,4 +13,6 @@ public interface LinkRepository extends JpaRepository<Links,Long> {
 
 
     long countAllByUserEmail(String userEmail);
+
+    Links findByUserEmailAndLinkName(String userEmail, String linkLabel);
 }

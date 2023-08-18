@@ -71,7 +71,6 @@ return foundLink;
            .linkUrlAddress(linkRequest.getLinkUrlAddress())
            .linkName(linkRequest.getLinkName())
            .userEmail(linkRequest.getUserEmail())
-           .userId(linkRequest.getUserId())
            .createdTime(LocalDateTime.now())
            .build();
     }
@@ -91,6 +90,18 @@ return foundLink;
     Links links = linkRepository.findByLinkName(linkLabel);
     if (links == null) throw new LinkException("Could not find link by label " + linkLabel);
        return links;
+    }
+
+    @Override
+    public Links findLink(String userEmail, String linkLabel) {
+        Links foundLinks = linkRepository.findByUserEmailAndLinkName(userEmail, linkLabel);
+        if (foundLinks == null)throw new LinkException("Link URL not found: " + userEmail);
+        return foundLinks;
+    }
+
+    @Override
+    public Links saveLink(Links link) {
+        return linkRepository.save(link);
     }
 
     public LinkResponse mapToResponse(Links request) {

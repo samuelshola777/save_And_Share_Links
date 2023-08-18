@@ -47,20 +47,21 @@ spring:
 #BREVO_API: ${BREVO_API_KEY}
 
 #spring:
-#  mail:
-#    host: smtp.gmail.com
-#    port: 587
-#    username: ${EMAIL_ADDRESS}
-#    password: ${EMAIL_PASSWORD}
-#    properties:
-#      mail:
-#        transport:
-#          protocol: smtp
-#        smtp:
-#          auth: true
-#          starttls:
-#            enable: true
-#    test-connection: false
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: ${EMAIL_ADDRESS}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail.smtp.ssl.enable: true
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    test-connection: false
 
 
 

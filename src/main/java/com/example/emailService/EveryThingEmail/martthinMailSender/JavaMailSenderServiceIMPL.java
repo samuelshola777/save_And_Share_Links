@@ -20,7 +20,7 @@ public class JavaMailSenderServiceIMPL implements JavaMailSenderService{
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo (request.getTo ());
         helper.setSubject (request.getSubject ());
-//        helper.setFrom (request.getFrom ());
+        helper.setFrom (request.getFrom ());
         helper.setText (request.getMessage (), true);
 
         mailSender.send (message);

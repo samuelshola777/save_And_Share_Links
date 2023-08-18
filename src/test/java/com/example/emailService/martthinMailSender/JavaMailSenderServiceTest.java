@@ -17,7 +17,7 @@ private MailRequest mailRequest;
     @BeforeEach
     void setUp() {
 mailRequest = new MailRequest();
-        mailRequest.setTo("boneshaker896@gmail.com");
+        mailRequest.setTo("samuelshola14@gmail.com");
         mailRequest.setSubject("another try from marthins semi colon");
         mailRequest.setMessage("after to one nah to calm down " +
                 "think about ma life and why i dey get issues with mail sending");

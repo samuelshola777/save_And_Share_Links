@@ -1,9 +1,6 @@
 package com.example.emailService.data.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,12 +16,12 @@ public class Links {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private long userId;
+    @ManyToOne()
+    private User user;
     private String linkUrlAddress;
     private String linkName;
     private String userEmail;
     private long numberOfViews;
-    private long numberOfLinks;
     private LocalDateTime createdTime;
     private LocalDateTime lastupdatedTime;
 

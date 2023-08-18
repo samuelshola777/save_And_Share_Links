@@ -29,7 +29,7 @@ public class User {
     private long numberOfLinks;
     private boolean loggedIn;
     private long numberOfFriends;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user_id")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     private List<Links> listOfLinks = new ArrayList<Links>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     private final List<FriendsConnection> listOfFriends = new ArrayList<FriendsConnection>();

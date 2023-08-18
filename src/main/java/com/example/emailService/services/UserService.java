@@ -2,6 +2,7 @@ package com.example.emailService.services;
 
 import com.example.emailService.data.model.FriendsConnection;
 import com.example.emailService.data.model.Links;
+import com.example.emailService.data.model.ShareHistory;
 import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
@@ -32,4 +33,6 @@ public interface UserService {
 
 
     FriendsConnection acceptFriendRequest(String friendUserName, String friendRequestUserName);
+
+    ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserName, String linkLable);
 }

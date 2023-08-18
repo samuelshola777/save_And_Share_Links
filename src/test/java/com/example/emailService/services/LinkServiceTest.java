@@ -71,4 +71,8 @@ class LinkServiceTest {
     void testThatWeCanViewLink(){
        assertEquals("http://google.com",linkService.viewLink("my google link", "boneshaker896@gmail.com").getLinkUrl());
     }
+    @Test
+    void testThatWeCanFindLinkByLinkLableAndUserEmail(){
+        assertEquals("samuelsegun@gmail.com",linkService.findLink("samuelsegun@gmail.com","my github link").getUserEmail());
+    }
 }
