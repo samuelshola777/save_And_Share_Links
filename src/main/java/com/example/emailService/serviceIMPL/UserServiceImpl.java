@@ -144,9 +144,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserName, String linkLable) {
-    if (! findFriends(friendUserName,linkSenderUserName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
-    Links foundLink = linkService.findLink(friendUserName,linkLable);
+    public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserEmail, String linkLable) {
+        String userName = findByEmail(linkSenderUserEmail).getUserName();
+    if (! findFriends(friendUserName,userName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
+    Links foundLink = linkService.findLink(linkSenderUserEmail,linkLable);
    Links savedLink =  linkService.saveLink( Links.builder()
                        .createdTime(LocalDateTime.now())
                        .linkName(foundLink.getLinkName())
@@ -156,7 +157,8 @@ public class UserServiceImpl implements UserService {
    return shareHistoryRepository.save(ShareHistory.builder()
            .sendTime(LocalDateTime.now())
            .receiverUserName(friendUserName)
-           .senderUserName(linkSenderUserName)
+           .linkName(foundLink.getLinkName())
+           .senderUserName(userName)
            .sharedTime(LocalDateTime.now())
            .build());
     }

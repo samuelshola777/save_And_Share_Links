@@ -96,7 +96,12 @@ return foundLink;
     @Override
     public Links findLink(String userEmail, String linkLabel) {
         Links foundLinks = linkRepository.findByUserEmailAndLinkName(userEmail, linkLabel);
-        if (foundLinks == null)throw new LinkException("Link URL not found: " + userEmail);
+        try {
+            if (foundLinks == null)throw new LinkException("Link URL not found: " + linkLabel);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
         return foundLinks;
     }
 

@@ -34,5 +34,5 @@ public interface UserService {
 
     FriendsConnection acceptFriendRequest(String friendUserName, String friendRequestUserName);
 
-    ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserName, String linkLable);
+    ShareHistory sendLinkToFriend(String friendUserName, String linkSenderEmail, String linkLable);
 }

@@ -33,6 +33,7 @@ public class User {
     private List<Links> listOfLinks = new ArrayList<Links>();
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     private final List<FriendsConnection> listOfFriends = new ArrayList<FriendsConnection>();
+
 //    @ElementCollection
 //    @CollectionTable(name = "user_links", joinColumns = @JoinColumn(name = "user_id"))
 //    @MapKeyColumn(name = "link_key")

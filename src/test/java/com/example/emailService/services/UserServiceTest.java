@@ -81,9 +81,9 @@ private UserRequest userRequest3;
     @Disabled
     @Test
     void testThatWeCanCreateLink(){
-//        userService.saveUrlLink(linkRequest1);
-//        userService.saveUrlLink(linkRequest2);
-//        userService.saveUrlLink(linkRequest3);
+        userService.saveUrlLink(linkRequest1);
+        userService.saveUrlLink(linkRequest2);
+        userService.saveUrlLink(linkRequest3);
         userService.saveUrlLink(linkRequest4);
         assertEquals(3, userService.countMyLinks("samuelsegun@gmail.com"));
 
@@ -123,7 +123,7 @@ private UserRequest userRequest3;
     @Test
     void testThatWeCanSendLinkToFriend(){
         assertDoesNotThrow(()-> {
-            userService.sendLinkToFriend("favor mnbata", "samuel segun","my github link");
+            userService.sendLinkToFriend("favor mnbata", "samuelsegun@gmail.com","my github link");
         });
 
     }
