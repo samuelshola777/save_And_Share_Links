@@ -146,13 +146,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserEmail, String linkLable) {
         String userName = findByEmail(linkSenderUserEmail).getUserName();
+        User foundUser = findByUserName(friendUserName);
     if (! findFriends(friendUserName,userName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
     Links foundLink = linkService.findLink(linkSenderUserEmail,linkLable);
-    if (linkService.findLink(findByUserName(friendUserName).getEmail(), linkLable) != null) throw new LinkException("user with the name " + friendUserName+" already have link at hand");
-   Links savedLink =  linkService.saveLink( Links.builder()
+    if (linkService.findLink(foundUser.getEmail(), linkLable) != null) throw new LinkException("user with the name " + friendUserName+" already have link at hand");
+    Links savedLink =  linkService.saveLink( Links.builder()
+                        .userEmail(foundUser.getEmail())
                        .createdTime(LocalDateTime.now())
                        .linkName(foundLink.getLinkName())
-                       .user(findByUserName(friendUserName))
+                       .user(foundUser)
                        .linkUrlAddress(foundLink.getLinkUrlAddress())
                        .build());
    return shareHistoryRepository.save(ShareHistory.builder()
