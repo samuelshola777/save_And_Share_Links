@@ -1,6 +1,5 @@
 package com.example.emailService.serviceIMPL;
 
-import com.example.emailService.EveryThingEmail.EmailRequests.FriendRequestMailRequest;
 import com.example.emailService.EveryThingEmail.EmailServices.FriendRequestMailSenderService;
 import com.example.emailService.Exception.FriendsConnectionException;
 import com.example.emailService.Exception.LinkException;
@@ -19,7 +18,6 @@ import com.example.emailService.services.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.juli.logging.Log;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -99,7 +97,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse userLogin(String mail, String password) {
-    User foundUser = findByEmail(mail);
+    User foundUser = findUserByEmail(mail);
     if (! foundUser.getPassword().equalsIgnoreCase(password)) throw new UserException("Invalid password");
     foundUser.setLoggedIn(true);
         return mapToUserResponse(userRepository.save(foundUser));
@@ -108,7 +106,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public FriendsConnection userAddFriend(String userEmail, String friendUserName) throws MessagingException {
-        User foundUser = findByEmail(userEmail);
+        User foundUser = findUserByEmail(userEmail);
      if (findFriends(friendUserName, foundUser.getUserName()) != null) throw new FriendsConnectionException("friend connection already exists");
         FriendsConnection   friendConnection =  FriendsConnection.builder()
                 .friendName(friendUserName)
@@ -145,17 +143,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserEmail, String linkLable) {
-        String userName = findByEmail(linkSenderUserEmail).getUserName();
-        User foundUser = findByUserName(friendUserName);
+    public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserEmail, String linkName) {
+        String userName = findUserByEmail(linkSenderUserEmail).getUserName(); // todo trying to get the user name
+        User foundFriend = findByUserName(friendUserName); // todo trying to get the friend account
     if (! findFriends(friendUserName,userName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
-    Links foundLink = linkService.findLinkByLabelAndUserName(linkSenderUserEmail,linkLable);
-    if (linkService.findLinkByLabelAndUserName(foundUser.getEmail(), linkLable) != null) throw new LinkException("user with the name " + friendUserName+" already have link at hand");
+    Links foundLink = linkService.findLinkByLabelAndUserName(linkSenderUserEmail,linkName);
+    if (linkService.findLinkByLabelAndUserName(foundFriend.getEmail(), linkName) != null) // todo checking if friend already have the link in his repository
+    throw new LinkException("user with the name " + friendUserName+" already have link at hand");
     Links savedLink =  linkService.saveLink( Links.builder()
-                        .userEmail(foundUser.getEmail())
+                        .userEmail(foundFriend.getEmail())
                        .createdTime(LocalDateTime.now())
                        .linkName(foundLink.getLinkName())
-                       .user(foundUser)
+                       .user(foundFriend)
                        .linkUrlAddress(foundLink.getLinkUrlAddress())
                        .build());
    return shareHistoryRepository.save(ShareHistory.builder()
@@ -174,7 +173,7 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    private User findByEmail(String mail) {
+    private User findUserByEmail(String mail) {
         User foundUser = userRepository.findByEmailIgnoreCase(mail);
         if (foundUser == null) throw new UserException("Could not find user with email " + mail);
         return foundUser;
