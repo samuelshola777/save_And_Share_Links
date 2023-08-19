@@ -16,6 +16,5 @@ public class LinkRequest {
     private String linkName;
     private String userEmail;
     private User user;
-    private long numberOfLinks;
     private String userName;
 }

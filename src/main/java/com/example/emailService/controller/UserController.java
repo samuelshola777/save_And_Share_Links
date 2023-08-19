@@ -2,7 +2,9 @@ package com.example.emailService.controller;
 
 import com.example.emailService.data.model.FriendsConnection;
 import com.example.emailService.data.model.User;
+import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
+import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,7 +63,11 @@ return ResponseEntity.ok().body(
                     .build()
     );
     }
+    @PostMapping("/savelink")
+    public ResponseEntity<LinkResponse> saveLink(@RequestBody LinkRequest request){
+    return new ResponseEntity<>(userService.saveUrlLink(request),HttpStatus.CREATED);
 
+    }
 
 
 }

@@ -24,18 +24,20 @@ public class LinkServiceIMPL implements LinkService {
     private final LinkRepository linkRepository;
     @Override
     public LinkResponse createLink(LinkRequest linkRequest) {
-       if ( linkRepository.existsByLinkName(linkRequest.getLinkName()))
+       if ( linkRepository.existsByLinkNameAndUserName(linkRequest.getLinkName(), linkRequest.getUser().getUserName()))
            throw new LinkException("link Already exist");
        if (linkRequest.getUserEmail() == null || linkRequest.getLinkUrlAddress() == null)
-           throw new LinkException("this operation can't be completed ");
+           throw new LinkException("user Email cannot be empty or link URL address cannot be empty");
        if (linkRequest.getUser() == null) throw new LinkException("invalid user");
+       linkRequest.setUserEmail(linkRequest.getUser().getEmail());
+       linkRequest.setUserName(linkRequest.getUser().getUserName());
         return mapToResponse(linkRepository.save(mapLinkRequestToLink(linkRequest)));
     }
 
     @Override
-    public String renameLink(String oldLinkName, String newLinkName) {
-        if (! linkRepository.existsByLinkName(oldLinkName)) throw new FIndException("Link " + oldLinkName + " does not exists");
-        Links foundLink =  linkRepository.findByLinkName(oldLinkName);
+    public String renameLink(String oldLinkName, String newLinkName, String userName) {
+        if (! linkRepository.existsByLinkNameAndUserName(oldLinkName, userName)) throw new FIndException("Link " + oldLinkName + " does not exists");
+        Links foundLink =  linkRepository.findByLinkNameAndUserName(oldLinkName, userName);
         foundLink.setLinkName(newLinkName);
         foundLink.setLastUpdatedTime(LocalDateTime.now());
         linkRepository.save(foundLink);
@@ -91,33 +93,39 @@ public Links validateLink(String myGoogleLink, String mail){
     }
 
     @Override
-    public Links findLinkByLabel(String linkLabel) {
-    Links links = linkRepository.findByLinkName(linkLabel);
+    public Links findLinkByLabelAndUserName(String linkLabel,String userName) {
+    Links links = linkRepository.findByLinkNameAndUserName(linkLabel, userName);
     if (links == null) throw new LinkException("Could not find link by label " + linkLabel);
        return links;
     }
 
-    @Override
-    public Links findLink(String userEmail, String linkLabel) {
-        Links foundLinks = linkRepository.findByUserEmailAndLinkName(userEmail, linkLabel);
-        try {
-            if (foundLinks == null)throw new LinkException("Link URL not found: " + linkLabel);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        return foundLinks;
-    }
+//    @Override
+//    public Links findLink(String userEmail, String linkLabel) {
+//        Links foundLinks = linkRepository.findByUserEmailAndLinkName(userEmail, linkLabel);
+//        try {
+//            if (foundLinks == null)throw new LinkException("Link URL not found: " + linkLabel);
+//        }catch (Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//
+//        return foundLinks;
+//    }
 
     @Override
     public Links saveLink(Links link) {
         return linkRepository.save(link);
     }
 
+    @Override
+    public Links findLinkByLinkNameAndUserEmail(String linkName, String userEmail) {
+        return validateLink(linkName, userEmail);
+    }
+
     public LinkResponse mapToResponse(Links request) {
         return LinkResponse.builder()
                 .linkName(request.getLinkName())
-                .numberOfLink(request.getNumberOfViews())
+                .numberOfViews(request.getNumberOfViews())
+                .userName(request.getUserName())
                 .build();
     }
 

@@ -8,8 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Builder
 public class LinkResponse {
     private String linkName;
-    private long numberOfLink;
+    private long numberOfViews;
     private String userName;
-    private String linkUrl;
     
 }

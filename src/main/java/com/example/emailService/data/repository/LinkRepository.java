@@ -4,10 +4,9 @@ import com.example.emailService.data.model.Links;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LinkRepository extends JpaRepository<Links,Long> {
-    boolean existsByLinkName(String linkName);
+    boolean existsByLinkNameAndUserName(String linkName, String userName);
 
-    Links findByLinkName(String oldLinkName);
-
+    Links findByLinkNameAndUserName(String oldLinkName, String userName);
 
     void deleteAllByUserEmail(String mail);
 

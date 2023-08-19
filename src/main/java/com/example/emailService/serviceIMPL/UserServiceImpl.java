@@ -37,11 +37,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
-     User savedUser =userRepository.save(mapToUser(user));
-      Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
+     return userRepository.save(mapToUser(user));
+//      Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
 
-        return savedUser;
+//        return savedUser;
     }
 
 
@@ -61,7 +61,8 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public LinkResponse saveUrlLink(LinkRequest linkRequest1) {
-        linkRequest1.setUser(userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail()));
+        User user = userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail());
+        linkRequest1.setUser(user);
         return linkService.createLink(linkRequest1);
     }
 
@@ -70,15 +71,15 @@ public class UserServiceImpl implements UserService {
         return linkService.countMyLinks(mail);
     }
     private Links validateUserLink(String userEmail,String linkUrlName){
-        Links foundLinks = linkService.findLinkByLabel(linkUrlName);
+        Links foundLinks = linkService.findLinkByLinkNameAndUserEmail(linkUrlName, userEmail);
         if (!foundLinks.getUserEmail().equals(userEmail)) throw new UserException("invalid email address");
        return foundLinks;
     }
 
     @Override
     public String renameUrlLink(String mail, String oldLinkName, String newLinkName) {
-   validateUserLink(mail, oldLinkName);
-    return linkService.renameLink(oldLinkName, newLinkName);
+   Links links = validateUserLink(mail, oldLinkName);
+    return linkService.renameLink(oldLinkName, newLinkName,links.getUserName());
     }
 
     @Override
@@ -132,7 +133,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserByEmail(String email) {
-      userRepository.delete(findByEmail(email));
+      userRepository.deleteUserByEmail(email);
     }
 
     @Override
@@ -148,8 +149,8 @@ public class UserServiceImpl implements UserService {
         String userName = findByEmail(linkSenderUserEmail).getUserName();
         User foundUser = findByUserName(friendUserName);
     if (! findFriends(friendUserName,userName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
-    Links foundLink = linkService.findLink(linkSenderUserEmail,linkLable);
-    if (linkService.findLink(foundUser.getEmail(), linkLable) != null) throw new LinkException("user with the name " + friendUserName+" already have link at hand");
+    Links foundLink = linkService.findLinkByLabelAndUserName(linkSenderUserEmail,linkLable);
+    if (linkService.findLinkByLabelAndUserName(foundUser.getEmail(), linkLable) != null) throw new LinkException("user with the name " + friendUserName+" already have link at hand");
     Links savedLink =  linkService.saveLink( Links.builder()
                         .userEmail(foundUser.getEmail())
                        .createdTime(LocalDateTime.now())

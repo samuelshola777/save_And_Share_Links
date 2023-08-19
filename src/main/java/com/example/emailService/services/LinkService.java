@@ -8,7 +8,7 @@ public interface LinkService {
 
     LinkResponse createLink(LinkRequest linkRequest);
 
-   String renameLink(String oldLinkName, String newLinkName);
+   String renameLink(String oldLinkName, String newLinkName, String userName);
 
 
     String deleteAllLinkByUserEmail(String mail);
@@ -17,9 +17,10 @@ public interface LinkService {
     long countMyLinks(String userEmail);
 
     LinkResponse viewLink(String linkLabel, String mail);
-    Links findLinkByLabel(String linkLabel);
+//    Links findLinkByLabelAndUserName(String linkLabel);
 
-    Links findLink(String userEmail, String  linkLabel);
+   Links findLinkByLabelAndUserName(String linkLabel,String userName);
 
     Links saveLink(Links link);
+    Links findLinkByLinkNameAndUserEmail(String linkName,String userEmail);
 }

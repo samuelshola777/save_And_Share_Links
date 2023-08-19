@@ -21,6 +21,7 @@ public class Links {
     private String linkUrlAddress;
     private String linkName;
     private String userEmail;
+    private String userName;
     private long numberOfViews;
     private LocalDateTime createdTime;
     private LocalDateTime lastUpdatedTime;
