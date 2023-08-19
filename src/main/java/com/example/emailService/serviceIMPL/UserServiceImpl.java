@@ -61,6 +61,7 @@ public class UserServiceImpl implements UserService {
     public LinkResponse saveUrlLink(LinkRequest linkRequest1) {
         User user = userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail());
         linkRequest1.setUser(user);
+        linkRequest1.setUserName(user.getUserName());
         return linkService.createLink(linkRequest1);
     }
 

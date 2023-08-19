@@ -78,6 +78,7 @@ public Links validateLink(String myGoogleLink, String mail){
            .linkName(linkRequest.getLinkName())
            .userEmail(linkRequest.getUserEmail())
            .createdTime(LocalDateTime.now())
+           .userName(linkRequest.getUserName())
            .user(linkRequest.getUser())
            .build();
     }
