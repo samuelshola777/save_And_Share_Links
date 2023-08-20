@@ -24,7 +24,7 @@ public class LinkServiceIMPL implements LinkService {
     private final LinkRepository linkRepository;
     @Override
     public LinkResponse createLink(LinkRequest linkRequest) {
-       if (! linkRepository.existsByLinkNameAndUserName(linkRequest.getLinkName(), linkRequest.getUser().getUserName()))
+       if ( linkRepository.existsByLinkNameAndUserName(linkRequest.getLinkName(), linkRequest.getUser().getUserName()))
            throw new LinkException("link Already exist");
        if (linkRequest.getUserEmail() == null || linkRequest.getLinkUrlAddress() == null)
            throw new LinkException("user Email cannot be empty or link URL address cannot be empty");

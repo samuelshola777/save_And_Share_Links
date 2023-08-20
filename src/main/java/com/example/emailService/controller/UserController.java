@@ -66,8 +66,12 @@ return ResponseEntity.ok().body(
     @PostMapping("/savelink")
     public ResponseEntity<LinkResponse> saveLink(@RequestBody LinkRequest request){
     return new ResponseEntity<>(userService.saveUrlLink(request),HttpStatus.CREATED);
-
     }
+
+    @GetMapping("/countuserlink")
+    public ResponseEntity<Long> countUserLink(@RequestParam String userEMail){
+    return new ResponseEntity<>(userService.countMyLinks(userEMail), HttpStatus.OK);
+}
 
 
 }
