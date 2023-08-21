@@ -1,6 +1,5 @@
 package com.example.emailService.controller;
 
-import com.example.emailService.data.model.FriendsConnection;
 import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
@@ -76,6 +75,10 @@ return ResponseEntity.ok().body(
     public ResponseEntity<String> renameLink(@RequestParam("user-email")String userEmail, @RequestParam("old-link-name") String oldLinkName,@RequestParam("new-link-name") String newLinkName){
     return ResponseEntity.ok(userService.renameUrlLink(userEmail, oldLinkName, newLinkName));
 
+}
+@GetMapping("/view-link")
+    public ResponseEntity<LinkResponse> viewLink( @RequestParam("link-name") String linkName, @RequestParam("user-name") String userName){
+    return new ResponseEntity<>(userService.userViewLink( linkName, userName), HttpStatus.OK);
 }
 
 }

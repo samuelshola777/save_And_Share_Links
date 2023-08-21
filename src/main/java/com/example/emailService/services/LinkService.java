@@ -16,11 +16,11 @@ public interface LinkService {
     String deleteLindByLabel(String myGoogleLink, String mail);
     long countMyLinks(String userEmail);
 
-    LinkResponse viewLink(String linkLabel, String mail);
+    LinkResponse viewLink(String linkLabel, String userName);
 //    Links findLinkByLabelAndUserName(String linkLabel);
 
    Links findLinkByLabelAndUserName(String linkLabel,String userName);
 
     Links saveLink(Links link);
-    Links findLinkByLinkNameAndUserEmail(String linkName,String userEmail);
+  
 }

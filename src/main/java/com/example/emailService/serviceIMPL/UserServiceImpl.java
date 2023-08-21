@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService {
     public long countMyLinks(String mail) {
         return linkService.countMyLinks(mail);
     }
-    private Links validateUserLink(String userEmail,String linkUrlName){
-        Links foundLinks = linkService.findLinkByLinkNameAndUserEmail(linkUrlName, userEmail);
-        if (!foundLinks.getUserEmail().equals(userEmail)) throw new UserException("invalid email address");
+    private Links validateUserLink(String linkUrlName,String userName){
+        Links foundLinks = linkService.findLinkByLabelAndUserName(linkUrlName, userName);
+        if (!foundLinks.getUserEmail().equals(userName)) throw new UserException("invalid email address");
        return foundLinks;
     }
 
@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Links userViewLink(String email, String linkName) {
-        return validateUserLink(email, linkName);
+    public LinkResponse userViewLink( String linkName,String email) {
+        return linkService.viewLink( linkName,email);
     }
 
     @Override

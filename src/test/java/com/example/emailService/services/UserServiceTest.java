@@ -94,7 +94,7 @@ private UserRequest userRequest3;
     }
     @Test
     void testThatUserCanViewLink(){
-        assertEquals("samuelsegun@gmail.com",userService.userViewLink("samuelsegun@gmail.com","brevo site link").getUserEmail());
+        assertEquals("samuelsegun",userService.userViewLink("samuel segun","my real git hub link").getLinkName());
     }
     @Test
     void testThatUserCanDeleteLink() {

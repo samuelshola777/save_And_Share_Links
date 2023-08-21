@@ -21,7 +21,7 @@ public interface UserService {
     String renameUrlLink(String mail, String oldLinkName, String newLinkName);
 
     FriendsConnection findFriends(String friendName, String friendRequestSender);
-    Links userViewLink(String email, String brevoSiteLink);
+    LinkResponse userViewLink(String brevoSiteLink,String userName);
 
     void deleteLink(String mail, String brevoSiteLink);
 

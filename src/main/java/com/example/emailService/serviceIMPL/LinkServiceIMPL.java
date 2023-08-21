@@ -61,14 +61,9 @@ public class LinkServiceIMPL implements LinkService {
        linkRepository.delete(validateLink(myGoogleLink, mail));
         return "deleted successfully";
     }
-public Links validateLink(String myGoogleLink, String mail){
-    Links foundLinks = new Links();
-        try{
-            foundLinks   = linkRepository.findByUserEmailAndLinkName(mail, myGoogleLink);
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        if (foundLinks == null) throw new LinkException("could not find link");
+public Links validateLink(String linkName, String userName){
+      Links   foundLinks   = linkRepository.findByLinkNameAndUserName( linkName, userName);
+        if (foundLinks == null) throw new LinkException("could not find link  link with name " + linkName);
         return foundLinks;
 }
 
@@ -87,16 +82,16 @@ public Links validateLink(String myGoogleLink, String mail){
     }
 
     @Override
-    public LinkResponse viewLink(String linkLabel, String mail) {
-   Links foundLink = validateLink(linkLabel, mail);
-   foundLink.setNumberOfViews(+1);
+    public LinkResponse viewLink(String linkLabel, String userName) {
+   Links foundLink = findLinkByLabelAndUserName(linkLabel,userName);
+   foundLink.setNumberOfViews(foundLink.getNumberOfViews()+1);
    return mapToResponse(linkRepository.save(foundLink));
     }
 
     @Override
     public Links findLinkByLabelAndUserName(String linkLabel,String userName) {
     Links links = linkRepository.findByLinkNameAndUserName(linkLabel, userName);
-    if (links == null) throw new LinkException("Could not find link by label " + linkLabel);
+    if (links == null) throw new LinkException("Could not find link by label -> " + linkLabel);
        return links;
     }
 
@@ -117,10 +112,7 @@ public Links validateLink(String myGoogleLink, String mail){
         return linkRepository.save(link);
     }
 
-    @Override
-    public Links findLinkByLinkNameAndUserEmail(String linkName, String userEmail) {
-        return validateLink(linkName, userEmail);
-    }
+
 
     public LinkResponse mapToResponse(Links request) {
         return LinkResponse.builder()
