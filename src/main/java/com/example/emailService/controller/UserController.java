@@ -4,6 +4,7 @@ import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
 import com.example.emailService.dtos.response.LinkResponse;
+import com.example.emailService.dtos.response.UserResponse;
 import com.example.emailService.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -84,8 +85,12 @@ return ResponseEntity.ok().body(
 @DeleteMapping("/delete-link")
     public ResponseEntity<String> deleteLink(@RequestParam("user-name")String userName, @RequestParam("link-name")String linkName){
     userService.deleteLink( linkName ,userName);
-    System.out.println("i'm nt a goat");
     return new ResponseEntity<>("deleted successfully", HttpStatus.OK);
 }
+@PostMapping("/login")
+    public ResponseEntity<UserResponse> userLogin(@RequestParam("user-email") String userEmail, @RequestParam("password") String password){
+    return new ResponseEntity<>(userService.userLogin(userEmail,password), HttpStatus.OK);
+}
+
 
 }
