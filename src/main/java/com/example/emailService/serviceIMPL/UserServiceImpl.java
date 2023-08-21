@@ -11,6 +11,7 @@ import com.example.emailService.data.repository.ShareHistoryRepository;
 import com.example.emailService.data.repository.UserRepository;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
+import com.example.emailService.dtos.response.FriendsConnectionResponse;
 import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.dtos.response.UserResponse;
 import com.example.emailService.services.LinkService;
@@ -106,7 +107,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public FriendsConnection userAddFriend(String userEmail, String friendUserName) throws MessagingException {
+    public FriendsConnectionResponse userAddFriend(String userEmail, String friendUserName) throws MessagingException {
         User foundUser = findUserByEmail(userEmail);
      if (findFriends(friendUserName, foundUser.getUserName()) != null) throw new FriendsConnectionException("friend connection already exists");
         FriendsConnection   friendConnection =  FriendsConnection.builder()
@@ -126,7 +127,7 @@ public class UserServiceImpl implements UserService {
 //                        .to(friendConnection.getFriendEmailAddress())
 //                        .build()
 //        );
-        return friendConnection; //
+        return mapToFriendConnectionResponse(friendConnection); //
     }
 
 
@@ -134,7 +135,13 @@ public class UserServiceImpl implements UserService {
     public void deleteUserByEmail(String email) {
       userRepository.deleteUserByEmail(email);
     }
-
+private FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnection friendConnection){
+        return FriendsConnectionResponse.builder()
+                .friendName(friendConnection.getFriendName())
+                .friendRequestSenderUserName(friendConnection.getFriendRequestSender())
+                .nowFriends(friendConnection.isNowFriends())
+                .build();
+}
     @Override
     public FriendsConnection acceptFriendRequest(String friendUserName, String friendRequestUserName) {
         FriendsConnection foundFriendConnection = findFriends(friendUserName, friendRequestUserName);

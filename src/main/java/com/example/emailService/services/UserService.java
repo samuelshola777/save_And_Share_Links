@@ -6,6 +6,7 @@ import com.example.emailService.data.model.ShareHistory;
 import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
+import com.example.emailService.dtos.response.FriendsConnectionResponse;
 import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.dtos.response.UserResponse;
 import jakarta.mail.MessagingException;
@@ -27,7 +28,7 @@ public interface UserService {
 
     UserResponse userLogin(String mail, String password);
 
-    FriendsConnection userAddFriend(String userEmail, String friendUserName) throws MessagingException;
+    FriendsConnectionResponse userAddFriend(String userEmail, String friendUserName) throws MessagingException;
 
     void deleteUserByEmail(String iLoveJava);
 

@@ -1,11 +1,14 @@
 package com.example.emailService.controller;
 
+import com.example.emailService.data.model.FriendsConnection;
 import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
+import com.example.emailService.dtos.response.FriendsConnectionResponse;
 import com.example.emailService.dtos.response.LinkResponse;
 import com.example.emailService.dtos.response.UserResponse;
 import com.example.emailService.services.UserService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,6 +93,10 @@ return ResponseEntity.ok().body(
 @PostMapping("/login")
     public ResponseEntity<UserResponse> userLogin(@RequestParam("user-email") String userEmail, @RequestParam("password") String password){
     return new ResponseEntity<>(userService.userLogin(userEmail,password), HttpStatus.OK);
+}
+@PutMapping("/add-friend")
+    public ResponseEntity<FriendsConnectionResponse> addFriend(@RequestParam("userEmail") String userEmail, @RequestParam("friendUserName") String friendUserName) throws MessagingException {
+    return new ResponseEntity<>(userService.userAddFriend(userEmail,friendUserName),HttpStatus.FOUND);
 }
 
 
