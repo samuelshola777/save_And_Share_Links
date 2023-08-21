@@ -81,4 +81,11 @@ return ResponseEntity.ok().body(
     return new ResponseEntity<>(userService.userViewLink( linkName, userName), HttpStatus.OK);
 }
 
+@DeleteMapping("/delete-link")
+    public ResponseEntity<String> deleteLink(@RequestParam("user-name")String userName, @RequestParam("link-name")String linkName){
+    userService.deleteLink( linkName ,userName);
+    System.out.println("i'm nt a goat");
+    return new ResponseEntity<>("deleted successfully", HttpStatus.OK);
+}
+
 }

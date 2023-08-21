@@ -92,8 +92,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteLink(String mail, String brevoSiteLink) {
-        linkService.deleteLindByLabel(brevoSiteLink,mail);
+    public void deleteLink( String brevoSiteLink,String userName) {
+        linkService.deleteLindByLabel(brevoSiteLink,userName);
     }
 
     @Override

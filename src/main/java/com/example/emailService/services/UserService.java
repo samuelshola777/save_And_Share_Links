@@ -23,7 +23,7 @@ public interface UserService {
     FriendsConnection findFriends(String friendName, String friendRequestSender);
     LinkResponse userViewLink(String brevoSiteLink,String userName);
 
-    void deleteLink(String mail, String brevoSiteLink);
+    void deleteLink( String linkNAme,String userName);
 
     UserResponse userLogin(String mail, String password);
 

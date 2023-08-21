@@ -57,8 +57,8 @@ public class LinkServiceIMPL implements LinkService {
     }
 
     @Override
-    public String deleteLindByLabel(String myGoogleLink, String mail) {
-       linkRepository.delete(validateLink(myGoogleLink, mail));
+    public String deleteLindByLabel(String myGoogleLink, String userName) {
+       linkRepository.delete(validateLink(myGoogleLink, userName));
         return "deleted successfully";
     }
 public Links validateLink(String linkName, String userName){
