@@ -39,33 +39,22 @@ UserController {
     );
    }
 
-   @GetMapping("/verify")
-    public ResponseEntity<HttpResponse> verifyUserAccount(@RequestParam("token") String token){
-Boolean isSuccess = userService.verifyToken(token);
-return ResponseEntity.ok().body(
-        HttpResponse.builder()
-                .timeStamp(LocalDateTime.now().toString())
-                .data(Map.of("Verification successful", isSuccess))
-                .massage("Account verified")
-                .status(HttpStatus.OK)
-                .statusCode(HttpStatus.OK.value())
-                .build()
-);
 
-   }
 
-    @GetMapping("/accept")
-    public ResponseEntity<HttpResponse> acceptFriendRequest(@RequestParam String friendUserName,@RequestParam String friendRequestSenderUserName){
-    userService.acceptFriendRequest(friendUserName, friendRequestSenderUserName);
-    return ResponseEntity.ok().body(
-            HttpResponse.builder()
-                    .timeStamp(LocalDateTime.now().toString())
-                    .data(Map.of("FriendRequest Accept successfully","Accepted"))
-                    .status(HttpStatus.OK)
-                    .statusCode(HttpStatus.OK.value())
-                    .build()
-    );
-    }
+
+
+//    @GetMapping("/accept")
+//    public ResponseEntity<HttpResponse> acceptFriendRequest(@RequestParam("friendUserName") String friendUserName, @RequestParam("friendRequestUserName") String friendRequestSenderUserName){
+//    userService.acceptFriendRequest(friendUserName, friendRequestSenderUserName);
+//    return ResponseEntity.ok().body(
+//            HttpResponse.builder()
+//                    .timeStamp(LocalDateTime.now().toString())
+//                    .data(Map.of("FriendRequest Accept successfully","Accepted"))
+//                    .status(HttpStatus.OK)
+//                    .statusCode(HttpStatus.OK.value())
+//                    .build()
+//    );
+//    }
     @PostMapping("/savelink")
     public ResponseEntity<LinkResponse> saveLink(@RequestBody LinkRequest request){
     return new ResponseEntity<>(userService.saveUrlLink(request),HttpStatus.CREATED);
@@ -98,6 +87,14 @@ return ResponseEntity.ok().body(
     public ResponseEntity<FriendsConnectionResponse> addFriend(@RequestParam("userEmail") String userEmail, @RequestParam("friendUserName") String friendUserName) throws MessagingException {
     return new ResponseEntity<>(userService.userAddFriend(userEmail,friendUserName),HttpStatus.FOUND);
 }
-
+@DeleteMapping("/delete-user")
+    public ResponseEntity<String> deleteUser(@RequestParam("userEmail") String userEmail){
+    userService.deleteUserByEmail(userEmail);
+    return new ResponseEntity<>("user account deleted  successfully",HttpStatus.GONE);
+}
+@PutMapping("/accept-friend-request")
+    public ResponseEntity<FriendsConnectionResponse> acceptFriendRequestS(@RequestParam("friendUserName") String friendUsername, @RequestParam("userName") String userName){
+    return new ResponseEntity<>(userService.acceptFriendRequest(friendUsername, userName),HttpStatus.ACCEPTED);
+}
 
 }

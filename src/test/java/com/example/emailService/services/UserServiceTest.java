@@ -127,5 +127,11 @@ private UserRequest userRequest3;
         });
 
     }
+    @Test
+    void testThatUserCanDeleteAccount(){
+        assertDoesNotThrow(()-> {
+            userService.deleteUserByEmail("SAMUELSHOLA14@GMAIL.COM");
+        });
+    }
 
 }

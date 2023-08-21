@@ -5,7 +5,6 @@ import com.example.emailService.Exception.FriendsConnectionException;
 import com.example.emailService.Exception.LinkException;
 import com.example.emailService.Exception.UserException;
 import com.example.emailService.data.model.*;
-import com.example.emailService.data.repository.ConfirmationRepository;
 import com.example.emailService.data.repository.FriendsConnectionRepository;
 import com.example.emailService.data.repository.ShareHistoryRepository;
 import com.example.emailService.data.repository.UserRepository;
@@ -28,7 +27,6 @@ import java.time.LocalDateTime;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ConfirmationRepository confirmationRepository;
     private final LinkService linkService;
     private final FriendsConnectionRepository friendsRepository;
     private final FriendRequestMailSenderService friendRequestMail;
@@ -44,20 +42,7 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    @Override
-    public Boolean verifyToken(String token) {
-        User user;
-        try {
-            Confirmation confirmation = confirmationRepository.findByToken(token);
-        user = userRepository.findByEmailIgnoreCase(confirmation.getUser().getEmail());
-        }catch (Exception e){
-         log.info(e.getMessage());
-         throw new UserException(("invalid token"));
-        }
-      user.setEnabled(true);
-      userRepository.save(user);
-        return Boolean.TRUE;
-    }
+
     @Override
     public LinkResponse saveUrlLink(LinkRequest linkRequest1) {
         User user = userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail());
@@ -133,9 +118,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserByEmail(String email) {
-      userRepository.deleteUserByEmail(email);
+
+        userRepository.delete(findUserByEmail(email));
     }
-private FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnection friendConnection){
+public FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnection friendConnection){
         return FriendsConnectionResponse.builder()
                 .friendName(friendConnection.getFriendName())
                 .friendRequestSenderUserName(friendConnection.getFriendRequestSender())
@@ -143,11 +129,11 @@ private FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnectio
                 .build();
 }
     @Override
-    public FriendsConnection acceptFriendRequest(String friendUserName, String friendRequestUserName) {
+    public FriendsConnectionResponse acceptFriendRequest(String friendUserName, String friendRequestUserName) {
         FriendsConnection foundFriendConnection = findFriends(friendUserName, friendRequestUserName);
         if (foundFriendConnection == null) throw new FriendsConnectionException("No friend request sent to  " + friendUserName);
         foundFriendConnection.setNowFriends(true);
-       return   friendsRepository.save(foundFriendConnection);
+       return   mapToFriendConnectionResponse(friendsRepository.save(foundFriendConnection));
     }
 
     @Override
