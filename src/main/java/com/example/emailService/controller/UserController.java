@@ -72,6 +72,10 @@ return ResponseEntity.ok().body(
     public ResponseEntity<Long> countUserLink(@RequestParam("user-email") String userEMail){
     return new ResponseEntity<>(userService.countMyLinks(userEMail), HttpStatus.OK);
 }
+@PutMapping("/rename-link")
+    public ResponseEntity<String> renameLink(@RequestParam("user-email")String userEmail, @RequestParam("old-link-name") String oldLinkName,@RequestParam("new-link-name") String newLinkName){
+    return ResponseEntity.ok(userService.renameUrlLink(userEmail, oldLinkName, newLinkName));
 
+}
 
 }
