@@ -18,6 +18,9 @@ public class JavaMailSenderConfig {
 
     @Bean
     public JavaMailSender javaMailSender() {
+
+
+
         JavaMailSenderImpl sender = new JavaMailSenderImpl();
 
         sender.setHost("smtp.gmail.com");
