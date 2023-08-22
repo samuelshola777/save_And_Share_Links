@@ -1,4 +1,4 @@
-//package com.example.emailService.serviceIMPL;
+//package com.example.emailService.EveryThingEmail.EmailServiceIMPs;
 //
 //import com.example.emailService.data.model.MailInfo;
 //import com.example.emailService.dtos.request.EmailRequest;
@@ -18,7 +18,7 @@
 //    private String appName;
 //
 //    @Value("${APP_EMAIL}")
-//    private String appEmail;
+//    private String appEmail;appEmail
 //    @Override
 //    public String sendMail(EmailRequest emailRequest) {
 //        emailRequest.setSender(

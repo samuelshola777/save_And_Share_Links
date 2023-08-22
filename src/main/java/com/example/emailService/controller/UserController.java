@@ -1,6 +1,7 @@
 package com.example.emailService.controller;
 
 import com.example.emailService.data.model.FriendsConnection;
+import com.example.emailService.data.model.ShareHistory;
 import com.example.emailService.data.model.User;
 import com.example.emailService.dtos.request.LinkRequest;
 import com.example.emailService.dtos.request.UserRequest;
@@ -93,8 +94,11 @@ UserController {
     return new ResponseEntity<>("user account deleted  successfully",HttpStatus.GONE);
 }
 @PutMapping("/accept-friend-request")
-    public ResponseEntity<FriendsConnectionResponse> acceptFriendRequestS(@RequestParam("friendUserName") String friendUsername, @RequestParam("userName") String userName){
-    return new ResponseEntity<>(userService.acceptFriendRequest(friendUsername, userName),HttpStatus.ACCEPTED);
+    public ResponseEntity<FriendsConnectionResponse> acceptFriendRequestS(@RequestParam("friendUserName") String friendUsername, @RequestParam("userName") String userName) {
+    return new ResponseEntity<>(userService.acceptFriendRequest(friendUsername, userName), HttpStatus.ACCEPTED);
 }
-
+@PostMapping("/share-link")
+    public ResponseEntity<ShareHistory> sendLinkToFriend(@RequestParam("friendUsername") String friendUsername,@RequestParam("userName") String userName,@RequestParam("linkName") String linkName){
+    return new ResponseEntity<>(userService.sendLinkToFriend(friendUsername, userName, linkName), HttpStatus.ACCEPTED);
+}
 }

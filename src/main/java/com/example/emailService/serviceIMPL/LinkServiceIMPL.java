@@ -90,8 +90,8 @@ public Links validateLink(String linkName, String userName){
 
     @Override
     public Links findLinkByLabelAndUserName(String linkLabel,String userName) {
-    Links links = linkRepository.findByLinkNameAndUserName(linkLabel, userName);
-    if (links == null) throw new LinkException("Could not find link by label -> " + linkLabel);
+    Links links = linkRepository.findByLinkNameAndUserName(  linkLabel , userName);
+    if (links == null) throw new LinkException("Could not find link by label -> " + linkLabel +"  from this user --> "+userName);
        return links;
     }
 

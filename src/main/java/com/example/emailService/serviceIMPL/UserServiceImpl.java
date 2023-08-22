@@ -137,12 +137,14 @@ public FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnection
     }
 
     @Override
-    public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserEmail, String linkName) {
-        String userName = findUserByEmail(linkSenderUserEmail).getUserName(); // todo trying to get the user name
+    public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserName, String linkName) {
+        String userName =findByUserName(linkSenderUserName).getUserName(); // todo trying to get the user name
         User foundFriend = findByUserName(friendUserName); // todo trying to get the friend account
-    if (! findFriends(friendUserName,userName).isNowFriends()) throw new LinkException(friendUserName+"  has not accepted your friend request");
-    Links foundLink = linkService.findLinkByLabelAndUserName(linkSenderUserEmail,linkName);
-    if (linkService.findLinkByLabelAndUserName(foundFriend.getEmail(), linkName) != null) // todo checking if friend already have the link in his repository
+        FriendsConnection foundConnection = findFriends(friendUserName,userName);
+if (foundConnection == null) throw new FriendsConnectionException("friend connection between user " + friendUserName +" and user " + userName+" does not exist");
+if (! foundConnection.isNowFriends() ) throw new LinkException(friendUserName+"  has not accepted your friend request");
+    Links foundLink = linkService.findLinkByLabelAndUserName(linkName,userName);
+    if (linkService.findLinkByLabelAndUserName( linkName,foundFriend.getUserName()) != null) // todo checking if friend already have the link in his repository
     throw new LinkException("user with the name " + friendUserName+" already have link at hand");
     Links savedLink =  linkService.saveLink( Links.builder()
                         .userEmail(foundFriend.getEmail())
@@ -167,9 +169,9 @@ public FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnection
         return user;
     }
 
-    private User findUserByEmail(String mail) {
-        User foundUser = userRepository.findByEmailIgnoreCase(mail);
-        if (foundUser == null) throw new UserException("Could not find user with email " + mail);
+    private User findUserByEmail(String userName) {
+        User foundUser = userRepository.findUserByUserName(userName);
+        if (foundUser == null) throw new UserException("Could not find user with email " + userName);
         return foundUser;
     }
 

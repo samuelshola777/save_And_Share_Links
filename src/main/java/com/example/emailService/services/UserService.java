@@ -33,7 +33,7 @@ public interface UserService {
     void deleteUserByEmail(String iLoveJava);
 
 
-    FriendsConnectionResponse acceptFriendRequest(String friendUserName, String friendRequestUserName);
+    FriendsConnectionResponse        acceptFriendRequest(String friendUserName, String friendRequestUserName);
 
-    ShareHistory sendLinkToFriend(String friendUserName, String linkSenderEmail, String linkLable);
+    ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserName, String linkLable);
 }
