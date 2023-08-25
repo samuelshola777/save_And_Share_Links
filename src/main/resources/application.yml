@@ -49,7 +49,7 @@ spring:
 #spring:
   mail:
     host: smtp.gmail.com
-    port: 465
+    port: ${EMAIL_PORT}
     username: ${EMAIL_ADDRESS}
     password: ${EMAIL_PASSWORD}
     properties:

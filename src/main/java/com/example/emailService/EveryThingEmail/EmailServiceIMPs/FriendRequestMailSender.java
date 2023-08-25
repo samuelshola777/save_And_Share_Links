@@ -3,11 +3,14 @@ package com.example.emailService.EveryThingEmail.EmailServiceIMPs;
 import com.example.emailService.EveryThingEmail.EmailRequests.FriendRequestMailRequest;
 import com.example.emailService.EveryThingEmail.EmailServices.FriendRequestMailSenderService;
 import jakarta.mail.MessagingException;
+
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +20,7 @@ public class FriendRequestMailSender implements FriendRequestMailSenderService {
 
     @Override
     public String friendRequestMailSender(FriendRequestMailRequest request) throws MessagingException {
+        LocalTime.parse("18:00");
         MimeMessage message = javaMailSender.createMimeMessage ();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo (request.getTo ());
@@ -26,4 +30,6 @@ public class FriendRequestMailSender implements FriendRequestMailSenderService {
         javaMailSender.send(message);
         return "sent successfully";
     }
+
+
 }

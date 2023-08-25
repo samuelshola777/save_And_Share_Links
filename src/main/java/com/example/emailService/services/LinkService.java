@@ -22,5 +22,6 @@ public interface LinkService {
    Links findLinkByLabelAndUserName(String linkLabel,String userName);
 
     Links saveLink(Links link);
+    boolean ifExist(String linkName, String userName);
   
 }

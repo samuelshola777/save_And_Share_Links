@@ -34,6 +34,7 @@ public class LinkServiceIMPL implements LinkService {
         return mapToResponse(linkRepository.save(mapLinkRequestToLink(linkRequest)));
     }
 
+
     @Override
     public String renameLink(String oldLinkName, String newLinkName, String userName) {
         if (! linkRepository.existsByLinkNameAndUserName(oldLinkName, userName)) throw new FIndException("Link " + oldLinkName + " does not exists");
@@ -91,7 +92,7 @@ public Links validateLink(String linkName, String userName){
     @Override
     public Links findLinkByLabelAndUserName(String linkLabel,String userName) {
     Links links = linkRepository.findByLinkNameAndUserName(  linkLabel , userName);
-    if (links == null) throw new LinkException("Could not find link by label -> " + linkLabel +"  from this user --> "+userName);
+    if (links == null) throw new LinkException(">> Could not find link by label -> " + linkLabel +"  from this user --> "+userName);
        return links;
     }
 
@@ -112,6 +113,11 @@ public Links validateLink(String linkName, String userName){
         return linkRepository.save(link);
     }
 
+    @Override
+    public boolean ifExist(String linkName, String userName) {
+   if (linkRepository.existsByLinkNameAndUserName(linkName, userName))  throw new LinkException("link Already exist");;
+    return false;
+    }
 
 
     public LinkResponse mapToResponse(Links request) {

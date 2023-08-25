@@ -12,7 +12,8 @@ import org.apache.catalina.Host;
 public class FriendRequestMailRequest {
 
     private String to;
-    private String from;
+    private String from =  "sholaibrahimor@gmail.com";
+
     private String host = "http://localhost:9000/api/accept";
     private final String subject = " hi   \uD83D\uDC4B  "+to+"     \uD83D\uDC4B    " +
             "\n -->"+from+"  is trying to connect with you to be able to share files and interact" ;

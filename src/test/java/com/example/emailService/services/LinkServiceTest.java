@@ -73,6 +73,6 @@ class LinkServiceTest {
     }
     @Test
     void testThatWeCanFindLinkByLinkLableAndUserEmail(){
-        assertEquals("samuel segun",linkService.viewLink("my real git hub link","samuel segun").getUserName());
+        assertEquals("samuel segun",linkService.viewLink("java google cloud api page","favor mnbata").getLinkName());
     }
 }
