@@ -27,7 +27,7 @@ UserController {
     private final UserService userService;
 @PostMapping("/register")
    public ResponseEntity<HttpResponse> createUser(@RequestBody UserRequest user) {
-    User user1 = userService.saverUser(user);
+    UserResponse user1 = userService.saverUser(user);
     return ResponseEntity.created(
             URI.create("")).body(
             HttpResponse.builder()
@@ -36,6 +36,7 @@ UserController {
                     .massage("user created successfully")
                     .status(HttpStatus.CREATED)
                     .statusCode(HttpStatus.CREATED.value())
+                    .token(user1.getToken())
                     .build()
     );
    }

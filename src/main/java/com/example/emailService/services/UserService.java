@@ -12,7 +12,7 @@ import com.example.emailService.dtos.response.UserResponse;
 import jakarta.mail.MessagingException;
 
 public interface UserService {
-    User saverUser(UserRequest user);
+    UserResponse saverUser(UserRequest user);
 
 
    LinkResponse saveUrlLink(LinkRequest linkRequest1);

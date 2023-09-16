@@ -11,5 +11,5 @@ public class UserResponse {
     private boolean loggedIn;
     private String userName;
     private long numberOfFriends;
-
+    private String token;
 }

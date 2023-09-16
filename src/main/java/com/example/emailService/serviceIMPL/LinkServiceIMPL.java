@@ -24,13 +24,13 @@ public class LinkServiceIMPL implements LinkService {
     private final LinkRepository linkRepository;
     @Override
     public LinkResponse createLink(LinkRequest linkRequest) {
-       if ( linkRepository.existsByLinkNameAndUserName(linkRequest.getLinkName(), linkRequest.getUser().getUserName()))
+       if ( linkRepository.existsByLinkNameAndUserName(linkRequest.getLinkName(), linkRequest.getUser().getUsername()))
            throw new LinkException("link Already exist");
        if (linkRequest.getUserEmail() == null || linkRequest.getLinkUrlAddress() == null)
            throw new LinkException("user Email cannot be empty or link URL address cannot be empty");
        if (linkRequest.getUser() == null) throw new LinkException("invalid user");
        linkRequest.setUserEmail(linkRequest.getUser().getEmail());
-       linkRequest.setUserName(linkRequest.getUser().getUserName());
+       linkRequest.setUserName(linkRequest.getUser().getUsername());
         return mapToResponse(linkRepository.save(mapLinkRequestToLink(linkRequest)));
     }
 

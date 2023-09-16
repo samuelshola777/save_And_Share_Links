@@ -1,5 +1,6 @@
 package com.example.emailService.serviceIMPL;
 
+import com.example.emailService.AppConfig.SecurityConfig.JWTService;
 import com.example.emailService.EveryThingEmail.EmailServices.FriendRequestMailSenderService;
 import com.example.emailService.Exception.FriendsConnectionException;
 import com.example.emailService.Exception.LinkException;
@@ -31,13 +32,21 @@ public class UserServiceImpl implements UserService {
     private final FriendsConnectionRepository friendsRepository;
     private final FriendRequestMailSenderService friendRequestMail;
     private final ShareHistoryRepository shareHistoryRepository;
+    private final JWTService jwtService;
     @Override
-    public User saverUser(UserRequest user) {
+    public UserResponse saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
-     return userRepository.save(mapToUser(user));
+     User savedUser = userRepository.save(mapToUser(user));
 //      Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
-
+        var jwtToken = jwtService.generateToken(savedUser);
+  return   UserResponse.builder()
+            .token(jwtToken)
+            .numberOfFriends(savedUser.getNumberOfFriends())
+            .userName(savedUser.getUsername())
+            .numberOfLinks(savedUser.getNumberOfLinks())
+            .loggedIn(savedUser.isLoggedIn())
+            .build();
 //        return savedUser;
     }
 
@@ -47,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public LinkResponse saveUrlLink(LinkRequest linkRequest1) {
         User user = userRepository.findByEmailIgnoreCase(linkRequest1.getUserEmail());
         linkRequest1.setUser(user);
-        linkRequest1.setUserName(user.getUserName());
+        linkRequest1.setUserName(user.getUsername());
         return linkService.createLink(linkRequest1);
     }
 
@@ -94,11 +103,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public FriendsConnectionResponse userAddFriend(String userEmail, String friendUserName) throws MessagingException {
         User foundUser = findUserByEmail(userEmail);
-     if (findFriends(friendUserName, foundUser.getUserName()) != null) throw new FriendsConnectionException("friend connection already exists");
+     if (findFriends(friendUserName, foundUser.getUsername()) != null) throw new FriendsConnectionException("friend connection already exists");
         FriendsConnection   friendConnection =  FriendsConnection.builder()
                 .friendName(friendUserName)
                 .user(foundUser)
-                .friendRequestSender(foundUser.getUserName())
+                .friendRequestSender(foundUser.getUsername())
                 .friendEmailAddress(findByUserName(friendUserName).getEmail())
                 .nowFriends(false)
                 .build();
@@ -138,7 +147,7 @@ public FriendsConnectionResponse mapToFriendConnectionResponse(FriendsConnection
 
     @Override
     public ShareHistory sendLinkToFriend(String friendUserName, String linkSenderUserName, String linkName) {
-        String userName =findByUserName(linkSenderUserName).getUserName(); // todo trying to get the user name
+        String userName =findByUserName(linkSenderUserName).getUsername(); // todo trying to get the user name
         User foundFriend = findByUserName(friendUserName); // todo trying to get the friend account
         FriendsConnection foundConnection = findFriends(friendUserName,userName);
 if (foundConnection == null) foundConnection = findFriends(userName,friendUserName);
@@ -153,7 +162,7 @@ if (! foundConnection.isNowFriends() ) throw new LinkException(friendUserName+" 
                         .userEmail(foundFriend.getEmail())
                        .createdTime(LocalDateTime.now())
                        .linkName(foundLink.getLinkName())
-                       .userName(foundFriend.getUserName())
+                       .userName(foundFriend.getUsername())
                        .user(foundFriend)
                        .linkUrlAddress(foundLink.getLinkUrlAddress())
                        .build());
@@ -223,7 +232,7 @@ if (! foundConnection.isNowFriends() ) throw new LinkException(friendUserName+" 
     return UserResponse.builder()
             .loggedIn(user.isLoggedIn())
             .numberOfLinks(user.getNumberOfLinks())
-            .userName(user.getUserName())
+            .userName(user.getUsername())
             .build();
     }
 
