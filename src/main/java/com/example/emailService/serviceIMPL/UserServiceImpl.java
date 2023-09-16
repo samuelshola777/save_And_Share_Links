@@ -19,6 +19,7 @@ import com.example.emailService.services.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -33,12 +34,14 @@ public class UserServiceImpl implements UserService {
     private final FriendRequestMailSenderService friendRequestMail;
     private final ShareHistoryRepository shareHistoryRepository;
     private final JWTService jwtService;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public UserResponse saverUser(UserRequest user) {
         if(userRepository.existsByEmail(user.getEmail())) throw new UserException(("email address already in use"));
      User savedUser = userRepository.save(mapToUser(user));
 //      Confirmation  savedConfirmation =  confirmationRepository.save(new Confirmation(savedUser));
         // TODO send email notification with token
+        System.out.println("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
         var jwtToken = jwtService.generateToken(savedUser);
   return   UserResponse.builder()
             .token(jwtToken)
@@ -224,8 +227,9 @@ if (! foundConnection.isNowFriends() ) throw new LinkException(friendUserName+" 
         return User.builder()
                 .userName(userRequest.getUserName())
                 .email(userRequest.getEmail())
-                .password(userRequest.getPassword())
+                .password(passwordEncoder.encode(userRequest.getPassword()))
                 .isEnabled(false)
+                .role(userRequest.getRole())
                 .build();
     }
     private UserResponse mapToUserResponse(User user){
